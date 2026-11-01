@@ -1,0 +1,6 @@
+{
+  "name": "PocketBawal",
+  "description": "Official App Store & Web Hub — Built from Scratch, Ready in One Click. Exclusive single-creator digital storefront for custom Android APKs and live web applications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
