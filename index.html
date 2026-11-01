@@ -4,18 +4,2571 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PocketBawal — Official App Store &amp; Web Hub</title>
-    <meta name="description" content="Official App Store &amp; Web Hub — Built from Scratch, Ready in One Click. Browse, inspect, and download custom Android APKs or launch web apps." />
+    <meta
+      name="description"
+      content="Official App Store &amp; Web Hub — Built from Scratch, Ready in One Click. Browse, inspect, and download custom Android APKs or launch web apps."
+    />
     <meta property="og:title" content="PocketBawal — Official App Store &amp; Web Hub" />
-    <meta property="og:description" content="Official App Store &amp; Web Hub — Built from Scratch, Ready in One Click. Browse, inspect, and download custom Android APKs or launch web apps." />
+    <meta
+      property="og:description"
+      content="Official App Store &amp; Web Hub — Built from Scratch, Ready in One Click. Browse, inspect, and download custom Android APKs or launch web apps."
+    />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN (Zero-Build GitHub Pages Ready) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (typeof tailwind !== 'undefined') {
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'monospace'],
+              },
+            },
+          },
+        };
+      }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root {
+        --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background-color: #07070B;
+        color: #F8FAFC;
+        overflow-x: hidden;
+        margin: 0;
+      }
+
+      .font-mono {
+        font-family: var(--font-mono);
+      }
+
+      .glass-surface {
+        background: rgba(18, 20, 30, 0.72);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .glass-surface-elevated {
+        background: rgba(22, 25, 38, 0.90);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      @keyframes spinSlow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .animate-spin-fast {
+        animation: spinSlow 0.8s linear infinite;
+      }
+    </style>
   </head>
+
   <body class="bg-[#07070B] text-[#F8FAFC] antialiased selection:bg-[#7C3AED]/30 selection:text-white">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Self-Contained Application Root -->
+    <div
+      id="top"
+      class="min-h-screen bg-[#07070B] text-[#F8FAFC] relative flex flex-col justify-between overflow-x-hidden"
+    >
+      <!-- Ambient Radial Mesh Glows (#4C1D95 and #0891B2 at 15% opacity) -->
+      <div aria-hidden="true" class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+        <div
+          class="absolute -top-40 -left-40 w-[560px] h-[560px] rounded-full blur-[130px]"
+          style="background: rgba(76, 29, 149, 0.15)"
+        ></div>
+        <div
+          class="absolute top-1/3 -right-40 w-[520px] h-[520px] rounded-full blur-[130px]"
+          style="background: rgba(8, 145, 178, 0.15)"
+        ></div>
+      </div>
+
+      <!-- Sticky Glass Header (3-Zone Top Bar Contract) -->
+      <header class="sticky top-0 z-30 glass-surface border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-8 px-4 sm:px-6 lg:px-8 h-16">
+          <!-- Zone 1: Brand Wordmark (Tap 5 times rapidly for secret Creator Studio) -->
+          <a
+            href="#top"
+            id="brand-logo-link"
+            title="PocketBawal — Tap 5 times rapidly for Creator Studio"
+            class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-[#F8FAFC] via-[#E2E8F0] to-[#06B6D4] bg-clip-text text-transparent whitespace-nowrap shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-md"
+          >
+            PocketBawal
+          </a>
+
+          <!-- Zone 2: Category Navigation Links -->
+          <nav
+            id="header-category-nav"
+            aria-label="Store categories"
+            class="hidden md:flex items-center gap-6 text-sm font-medium text-[#94A3B8]"
+          ></nav>
+
+          <!-- Zone 3: Primary Real-Time Search -->
+          <div class="flex items-center shrink-0">
+            <div class="relative flex items-center">
+              <span
+                aria-hidden="true"
+                class="w-4 h-4 text-[#94A3B8] absolute left-3 pointer-events-none flex items-center justify-center"
+                data-icon="search"
+              ></span>
+              <input
+                id="store-search-input"
+                type="search"
+                placeholder="Search apps, APKs, tools..."
+                aria-label="Search apps, APKs, and web tools"
+                class="w-44 sm:w-60 lg:w-64 pl-9 pr-8 py-1.5 text-sm bg-white/[0.04] hover:bg-white/[0.07] focus:bg-[#0D101B] text-[#F8FAFC] placeholder-[#94A3B8] rounded-xl border border-white/[0.09] focus:border-[#06B6D4] focus:outline-none transition-colors"
+              />
+              <button
+                id="clear-search-btn"
+                type="button"
+                aria-label="Clear search query"
+                class="hidden absolute right-2 p-1 text-[#94A3B8] hover:text-[#F8FAFC] rounded-md cursor-pointer"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Storefront Content -->
+      <main class="relative z-10 flex-1 pb-16">
+        <!-- Hero Spotlight ("Bawal Drop of the Week") -->
+        <section
+          id="hero-spotlight-section"
+          aria-label="Bawal Drop of the Week"
+          class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4"
+        ></section>
+
+        <!-- Interactive Category Filter Pills & Bento Grid -->
+        <section
+          aria-label="PocketBawal Creations Catalog"
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6"
+        >
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div
+              id="category-filter-bar"
+              role="tablist"
+              aria-label="Filter creations by category"
+              class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"
+            ></div>
+            <div
+              id="catalog-count-label"
+              class="text-xs font-mono tabular-nums text-[#94A3B8] shrink-0"
+            ></div>
+          </div>
+
+          <div id="projects-grid-container"></div>
+        </section>
+      </main>
+
+      <!-- Quiet Footer with Discreet Creator Lock Trigger -->
+      <footer class="relative z-10 border-t border-white/[0.07] bg-[#07070B]/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-wrap items-center justify-between gap-4 text-xs text-[#94A3B8]">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-[#F8FAFC]">PocketBawal</span>
+            <span aria-hidden="true">·</span>
+            <span>Official App Store &amp; Web Hub</span>
+            <span aria-hidden="true">·</span>
+            <span>All APKs Verified &amp; Signed</span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <span>Zero-Login Public Access</span>
+            <button
+              id="footer-creator-lock-btn"
+              type="button"
+              aria-label="Creator Lock"
+              title="Creator Studio Access (Owner Only)"
+              class="min-h-[38px] px-3 py-1.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] text-[#94A3B8] hover:text-[#F8FAFC] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <span class="w-3.5 h-3.5 text-[#7C3AED] inline-flex" data-icon="lock"></span>
+              <span>Creator Studio</span>
+            </button>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Non-Blocking Action Toast -->
+      <div id="toast-container" class="fixed bottom-5 right-5 z-40 pointer-events-none"></div>
+
+      <!-- App Detail Sheet Modal Container -->
+      <div id="detail-sheet-root"></div>
+
+      <!-- Secret Admin PIN Modal Container -->
+      <div id="admin-pin-modal-root"></div>
+
+      <!-- Secret No-Code Creator Studio Modal Container -->
+      <div id="admin-studio-modal-root"></div>
+    </div>
+
+    <!-- Pure Vanilla JavaScript Application Engine -->
+    <script>
+      (function () {
+        'use strict';
+
+        // ---------------------------------------------------------------------------
+        // 1. INLINE SVG ICON HELPER (Works with Lucide CDN + Instant Offline SVG)
+        // ---------------------------------------------------------------------------
+        var SVG_ICONS = {
+          search:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+          x: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+          shieldCheck:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+          youtube:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>',
+          instagram:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>',
+          github:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
+          download:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>',
+          externalLink:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+          check:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M20 6 9 17l-5-5"/></svg>',
+          loader:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full animate-spin-fast"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>',
+          lock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+          keyRound:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+          share2:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>',
+          folderPlus:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 10v6"/><path d="M9 13h6"/><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>',
+          layers:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>',
+          cloud:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',
+          upload:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>',
+          plus: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+          trash2:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
+          edit3:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>',
+          star: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+          starFilled:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+          rotateCcw:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+          sparkles:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>',
+        };
+
+        function iconHtml(name, classes) {
+          return (
+            '<span aria-hidden="true" class="inline-flex items-center justify-center shrink-0 ' +
+            (classes || 'w-4 h-4') +
+            '">' +
+            (SVG_ICONS[name] || '') +
+            '</span>'
+          );
+        }
+
+        function escapeHtml(str) {
+          return String(str == null ? '' : str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        // ---------------------------------------------------------------------------
+        // 2. EMBEDDED STUDIO-GRADE SVG ARTWORK ASSETS
+        // ---------------------------------------------------------------------------
+        function toSvgDataUri(svgString) {
+          return 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString.trim());
+        }
+
+        var DEFAULT_ICONS = {
+          wallpaper3d: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#131124"/><stop offset="100%" stop-color="#090A12"/></linearGradient><linearGradient id="prismA" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient><linearGradient id="prismB" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4C1D95"/><stop offset="100%" stop-color="#22D3EE"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg1)"/><circle cx="128" cy="128" r="86" fill="none" stroke="url(#prismA)" stroke-opacity="0.22" stroke-width="2"/><polygon points="128,44 202,88 202,168 128,212 54,168 54,88" fill="url(#prismA)" fill-opacity="0.18" stroke="url(#prismA)" stroke-width="3"/><polygon points="128,44 202,88 128,132 54,88" fill="url(#prismB)" fill-opacity="0.65"/><polygon points="128,132 202,88 202,168 128,212" fill="#7C3AED" fill-opacity="0.55"/><polygon points="128,132 54,88 54,168 128,212" fill="#06B6D4" fill-opacity="0.4"/><circle cx="128" cy="132" r="10" fill="#F8FAFC"/></svg>'
+          ),
+          bawalSynth: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0C1622"/><stop offset="100%" stop-color="#07070B"/></linearGradient><linearGradient id="ring2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg2)"/><circle cx="128" cy="128" r="82" fill="none" stroke="#1E293B" stroke-width="10" stroke-dasharray="14 8"/><circle cx="128" cy="128" r="64" fill="#111827" stroke="url(#ring2)" stroke-width="4"/><circle cx="128" cy="128" r="42" fill="#0F172A" stroke="#334155" stroke-width="2"/><line x1="128" y1="128" x2="162" y2="94" stroke="#22D3EE" stroke-width="6" stroke-linecap="round"/><circle cx="128" cy="128" r="8" fill="#10B981"/></svg>'
+          ),
+          neuralLens: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#161229"/><stop offset="100%" stop-color="#090D16"/></linearGradient><linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10B981"/><stop offset="50%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg3)"/><circle cx="128" cy="128" r="84" fill="#0B0F19" stroke="url(#lensGrad)" stroke-width="4"/><circle cx="128" cy="128" r="62" fill="#111827" stroke="#334155" stroke-width="2"/><circle cx="128" cy="128" r="38" fill="url(#lensGrad)" fill-opacity="0.25" stroke="#22D3EE" stroke-width="3"/><circle cx="112" cy="112" r="10" fill="#F8FAFC" fill-opacity="0.75"/><circle cx="144" cy="144" r="5" fill="#10B981" fill-opacity="0.9"/></svg>'
+          ),
+          orbitDrifter: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0F1021"/><stop offset="100%" stop-color="#06070B"/></linearGradient><linearGradient id="shipGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#94A3B8"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg4)"/><ellipse cx="128" cy="142" rx="88" ry="34" fill="none" stroke="#7C3AED" stroke-opacity="0.45" stroke-width="4" transform="rotate(-18 128 142)"/><polygon points="128,50 176,174 128,148 80,174" fill="url(#shipGrad)"/><polygon points="128,50 128,148 80,174" fill="#CBD5E1"/><circle cx="128" cy="172" r="14" fill="#06B6D4" fill-opacity="0.8"/></svg>'
+          ),
+          apkForge: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#091E1A"/><stop offset="100%" stop-color="#07070B"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg5)"/><rect x="52" y="56" width="152" height="144" rx="22" fill="#0F172A" stroke="#10B981" stroke-width="4"/><path d="M86 112 L112 136 L86 160" fill="none" stroke="#10B981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><line x1="126" y1="160" x2="168" y2="160" stroke="#06B6D4" stroke-width="8" stroke-linecap="round"/><circle cx="80" cy="80" r="5" fill="#10B981"/><circle cx="100" cy="80" r="5" fill="#06B6D4"/></svg>'
+          ),
+          promptCraft: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1E1035"/><stop offset="100%" stop-color="#080811"/></linearGradient></defs><rect width="256" height="256" rx="56" fill="url(#bg6)"/><rect x="56" y="56" width="144" height="144" rx="28" fill="#131629" stroke="#7C3AED" stroke-width="4"/><circle cx="100" cy="106" r="12" fill="#06B6D4"/><circle cx="156" cy="106" r="12" fill="#7C3AED"/><circle cx="128" cy="156" r="12" fill="#10B981"/><line x1="100" y1="106" x2="156" y2="106" stroke="#475569" stroke-width="4"/><line x1="100" y1="106" x2="128" y2="156" stroke="#475569" stroke-width="4"/><line x1="156" y1="106" x2="128" y2="156" stroke="#475569" stroke-width="4"/></svg>'
+          ),
+        };
+
+        var DEFAULT_SCREENSHOTS = {
+          wallpaperHero1: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><defs><linearGradient id="hbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#090714"/><stop offset="50%" stop-color="#120E29"/><stop offset="100%" stop-color="#06161E"/></linearGradient><radialGradient id="glowV" cx="35%" cy="45%" r="50%"><stop offset="0%" stop-color="#7C3AED" stop-opacity="0.45"/><stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/></radialGradient><radialGradient id="glowC" cx="72%" cy="55%" r="45%"><stop offset="0%" stop-color="#06B6D4" stop-opacity="0.4"/><stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/></radialGradient><linearGradient id="crystal1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#A855F7"/><stop offset="50%" stop-color="#6366F1"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient></defs><rect width="1280" height="720" fill="url(#hbg)"/><rect width="1280" height="720" fill="url(#glowV)"/><rect width="1280" height="720" fill="url(#glowC)"/><g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"><line x1="0" y1="180" x2="1280" y2="180"/><line x1="0" y1="360" x2="1280" y2="360"/><line x1="0" y1="540" x2="1280" y2="540"/><line x1="320" y1="0" x2="320" y2="720"/><line x1="640" y1="0" x2="640" y2="720"/><line x1="960" y1="0" x2="960" y2="720"/></g><polygon points="640,110 860,240 860,480 640,610 420,480 420,240" fill="url(#crystal1)" fill-opacity="0.18" stroke="url(#crystal1)" stroke-width="3"/><polygon points="640,110 860,240 640,360 420,240" fill="#8B5CF6" fill-opacity="0.42"/><polygon points="640,360 860,240 860,480 640,610" fill="#06B6D4" fill-opacity="0.34"/><polygon points="640,360 420,240 420,480 640,610" fill="#4C1D95" fill-opacity="0.5"/><circle cx="640" cy="360" r="190" fill="none" stroke="#22D3EE" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="10 12"/><circle cx="640" cy="360" r="250" fill="none" stroke="#A855F7" stroke-opacity="0.25" stroke-width="1.5"/></svg>'
+          ),
+          wallpaperHero2: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><defs><linearGradient id="hbg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050811"/><stop offset="100%" stop-color="#0E1726"/></linearGradient></defs><rect width="1280" height="720" fill="url(#hbg2)"/><circle cx="400" cy="360" r="180" fill="#7C3AED" fill-opacity="0.22" stroke="#7C3AED" stroke-width="3"/><circle cx="640" cy="360" r="180" fill="#06B6D4" fill-opacity="0.22" stroke="#06B6D4" stroke-width="3"/><circle cx="880" cy="360" r="180" fill="#10B981" fill-opacity="0.22" stroke="#10B981" stroke-width="3"/><text x="400" y="366" text-anchor="middle" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">Crystal Prism</text><text x="640" y="366" text-anchor="middle" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">Cyber Wave</text><text x="880" y="366" text-anchor="middle" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">AMOLED Zero-Drain</text></svg>'
+          ),
+          synthScreen1: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><rect width="1280" height="720" fill="#080B12"/><rect x="90" y="80" width="1100" height="560" rx="24" fill="#0F172A" stroke="#1E293B" stroke-width="3"/><path d="M 140 360 Q 260 160, 380 360 T 620 360 T 860 360 T 1100 360" fill="none" stroke="#06B6D4" stroke-width="6"/><path d="M 140 360 Q 260 240, 380 360 T 620 360 T 860 360 T 1100 360" fill="none" stroke="#7C3AED" stroke-width="4" stroke-opacity="0.7"/><circle cx="320" cy="520" r="48" fill="#1E293B" stroke="#06B6D4" stroke-width="4"/><circle cx="640" cy="520" r="48" fill="#1E293B" stroke="#7C3AED" stroke-width="4"/><circle cx="960" cy="520" r="48" fill="#1E293B" stroke="#10B981" stroke-width="4"/></svg>'
+          ),
+          neuralScreen1: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><rect width="1280" height="720" fill="#07090F"/><rect x="140" y="70" width="1000" height="580" rx="28" fill="#0D131F" stroke="#10B981" stroke-opacity="0.4" stroke-width="2"/><circle cx="640" cy="360" r="160" fill="none" stroke="#10B981" stroke-width="3" stroke-dasharray="18 10"/><circle cx="640" cy="360" r="90" fill="#06B6D4" fill-opacity="0.15" stroke="#06B6D4" stroke-width="2"/><line x1="420" y1="360" x2="860" y2="360" stroke="#10B981" stroke-opacity="0.5" stroke-width="1.5"/><line x1="640" y1="140" x2="640" y2="580" stroke="#10B981" stroke-opacity="0.5" stroke-width="1.5"/></svg>'
+          ),
+          orbitScreen1: toSvgDataUri(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"><rect width="1280" height="720" fill="#06070B"/><ellipse cx="640" cy="380" rx="420" ry="150" fill="none" stroke="#7C3AED" stroke-opacity="0.4" stroke-width="4" transform="rotate(-12 640 380)"/><ellipse cx="640" cy="380" rx="280" ry="95" fill="none" stroke="#06B6D4" stroke-opacity="0.5" stroke-width="3" transform="rotate(-12 640 380)"/><polygon points="640,210 710,410 640,370 570,410" fill="#F8FAFC"/><circle cx="640" cy="405" r="18" fill="#06B6D4"/></svg>'
+          ),
+        };
+
+        // ---------------------------------------------------------------------------
+        // 3. INITIAL STORE DATA & CONSTANTS
+        // ---------------------------------------------------------------------------
+        var PROJECT_CATEGORIES = [
+          'All Creations',
+          'Android APKs',
+          'Web Apps',
+          'AI Tools',
+          'Games',
+        ];
+
+        var DEFAULT_ADMIN_PIN = '2026';
+        var STORAGE_KEY_PROJECTS = 'pocketbawal_projects_v1';
+        var STORAGE_KEY_CLOUD = 'pocketbawal_cloud_v1';
+        var STORAGE_KEY_PIN = 'pocketbawal_pin_v1';
+
+        var INITIAL_PROJECTS = [
+          {
+            id: 'pb_1730480000',
+            title: '3D Live Wallpaper Pro',
+            tagline: 'Interactive multi-mode 3D graphics wallpaper for Android.',
+            description:
+              'Custom-built 3D interactive live wallpaper with touch physics, gyroscope parallax support, and battery-saving AMOLED rendering. Includes 12 custom shader scenes crafted from scratch with zero background drain when the screen is off.',
+            changelog:
+              'v2.1.0 — Added Cyber Prism & Liquid Obsidian shader modes, 120Hz ProMotion frame pacing, and reduced memory footprint by 32%.',
+            type: 'apk',
+            category: 'Android APKs',
+            iconUrl: DEFAULT_ICONS.wallpaper3d,
+            screenshots: [
+              DEFAULT_SCREENSHOTS.wallpaperHero1,
+              DEFAULT_SCREENSHOTS.wallpaperHero2,
+            ],
+            apkUrl: 'https://pocketbawal.dev/releases/3d-live-wallpaper-pro-v2.1.0.apk',
+            webUrl: '',
+            version: 'v2.1.0',
+            fileSize: '14.8 MB',
+            techStack: ['Kotlin', 'OpenGL', '3D', 'Shaders'],
+            downloads: 1240,
+            isFeatured: true,
+            createdAt: '2026-11-01T12:00:00Z',
+          },
+          {
+            id: 'pb_1730480100',
+            title: 'Bawal Synth Studio',
+            tagline: 'Polyphonic WebAudio modular synthesizer & loop workstation.',
+            description:
+              'Zero-latency browser-based modular synth featuring dual wavetable oscillators, analog-modeled ladder filters, real-time oscilloscope visualizer, and 1-click WAV stem export.',
+            changelog:
+              'v1.8.4 — Added MIDI controller auto-detection, arpeggiator pattern bank, and dark glass rack layout.',
+            type: 'web',
+            category: 'Web Apps',
+            iconUrl: DEFAULT_ICONS.bawalSynth,
+            screenshots: [DEFAULT_SCREENSHOTS.synthScreen1],
+            apkUrl: '',
+            webUrl: 'https://synth.pocketbawal.dev',
+            version: 'v1.8.4',
+            fileSize: 'Cloud',
+            techStack: ['HTML5', 'WebAudio', 'JavaScript', 'Canvas'],
+            downloads: 895,
+            isFeatured: false,
+            createdAt: '2026-10-28T15:30:00Z',
+          },
+          {
+            id: 'pb_1730480200',
+            title: 'Neural Lens Camera',
+            tagline: 'On-device night vision & computational RAW camera utility.',
+            description:
+              'Bypasses standard ISP compression to capture multi-frame burst RAW photos with on-device neural denoising, manual focus peaking, and real-time zebras on Android devices.',
+            changelog:
+              'v3.0.2 — Improved low-light burst alignment speed by 45% on Snapdragon & Tensor chips.',
+            type: 'both',
+            category: 'AI Tools',
+            iconUrl: DEFAULT_ICONS.neuralLens,
+            screenshots: [DEFAULT_SCREENSHOTS.neuralScreen1],
+            apkUrl: 'https://pocketbawal.dev/releases/neural-lens-v3.0.2.apk',
+            webUrl: 'https://lens.pocketbawal.dev',
+            version: 'v3.0.2',
+            fileSize: '22.4 MB',
+            techStack: ['Kotlin', 'Camera2 API', 'TFLite', 'AI'],
+            downloads: 2150,
+            isFeatured: false,
+            createdAt: '2026-10-24T09:15:00Z',
+          },
+          {
+            id: 'pb_1730480300',
+            title: 'Orbit Drifter: Zero-G',
+            tagline: 'Newtonian physics space drift racer with ghost leaderboards.',
+            description:
+              'Master inertia and vector thrusters across 24 handcrafted orbital rings. Play directly in your browser or install the native Android APK with haptic DualSense & gamepad support.',
+            changelog:
+              'v1.4.0 — Added 6 new Kuiper Belt time-trial sectors and 120 FPS native Android touch controls.',
+            type: 'both',
+            category: 'Games',
+            iconUrl: DEFAULT_ICONS.orbitDrifter,
+            screenshots: [DEFAULT_SCREENSHOTS.orbitScreen1],
+            apkUrl: 'https://pocketbawal.dev/releases/orbit-drifter-v1.4.0.apk',
+            webUrl: 'https://orbit.pocketbawal.dev',
+            version: 'v1.4.0',
+            fileSize: '31.2 MB',
+            techStack: ['WebGL', 'Kotlin', 'Physics', 'WebView'],
+            downloads: 1680,
+            isFeatured: false,
+            createdAt: '2026-10-19T18:00:00Z',
+          },
+          {
+            id: 'pb_1730480400',
+            title: 'APK Inspector & Signer',
+            tagline: 'Verify APK signatures, permissions, and manifest trees.',
+            description:
+              'Lightweight developer utility for Android power users. Inspect package permissions, minSdk targets, certificate SHA-256 fingerprints, and split bundle contents offline.',
+            changelog:
+              'v1.2.1 — Added Android 15 target SDK badge analyzer and instant manifest XML search.',
+            type: 'apk',
+            category: 'Android APKs',
+            iconUrl: DEFAULT_ICONS.apkForge,
+            screenshots: [DEFAULT_SCREENSHOTS.wallpaperHero2],
+            apkUrl: 'https://pocketbawal.dev/releases/apk-inspector-v1.2.1.apk',
+            webUrl: '',
+            version: 'v1.2.1',
+            fileSize: '8.6 MB',
+            techStack: ['Kotlin', 'Jetpack', 'Security'],
+            downloads: 740,
+            isFeatured: false,
+            createdAt: '2026-10-12T11:20:00Z',
+          },
+          {
+            id: 'pb_1730480500',
+            title: 'PromptFlow Studio Hub',
+            tagline: 'Visual node-based workflow builder for structured AI prompts.',
+            description:
+              'Chain system instructions, few-shot examples, and JSON schema validators in an interactive node canvas. Export ready-to-run JavaScript or Kotlin snippets in one click.',
+            changelog:
+              'v2.0.0 — Added instant JSON schema tester and local browser IndexedDB workspace snapshots.',
+            type: 'web',
+            category: 'AI Tools',
+            iconUrl: DEFAULT_ICONS.promptCraft,
+            screenshots: [DEFAULT_SCREENSHOTS.synthScreen1],
+            apkUrl: '',
+            webUrl: 'https://promptflow.pocketbawal.dev',
+            version: 'v2.0.0',
+            fileSize: 'Cloud',
+            techStack: ['HTML5', 'JavaScript', 'AI', 'Canvas'],
+            downloads: 1120,
+            isFeatured: false,
+            createdAt: '2026-10-05T14:45:00Z',
+          },
+        ];
+
+        // ---------------------------------------------------------------------------
+        // 4. APPLICATION STATE & PURE LOGIC HELPERS
+        // ---------------------------------------------------------------------------
+        function parseImportedProjectsJson(rawJson) {
+          try {
+            var parsed = JSON.parse(rawJson);
+            var list = Array.isArray(parsed) ? parsed : parsed && parsed.projects;
+            if (!Array.isArray(list) || list.length === 0) {
+              return { error: 'JSON must contain a non-empty array of ProjectItem objects.' };
+            }
+            var validated = [];
+            for (var i = 0; i < list.length; i++) {
+              var item = list[i];
+              if (!item || typeof item.title !== 'string' || !item.title.trim()) {
+                return { error: 'Each project item in JSON must include a valid "title".' };
+              }
+              validated.push({
+                id: String(item.id || 'pb_' + Date.now() + '_' + i),
+                title: item.title.trim(),
+                tagline: String(item.tagline || 'Official PocketBawal creation.'),
+                description: String(item.description || item.tagline || ''),
+                changelog: String(
+                  item.changelog || (item.version || 'v1.0.0') + ' — Verified build.'
+                ),
+                type:
+                  item.type === 'apk' || item.type === 'web' || item.type === 'both'
+                    ? item.type
+                    : 'apk',
+                category:
+                  item.category === 'Android APKs' ||
+                  item.category === 'Web Apps' ||
+                  item.category === 'AI Tools' ||
+                  item.category === 'Games'
+                    ? item.category
+                    : 'Android APKs',
+                iconUrl: String(item.iconUrl || DEFAULT_ICONS.wallpaper3d),
+                screenshots:
+                  Array.isArray(item.screenshots) && item.screenshots.length > 0
+                    ? item.screenshots.map(String)
+                    : [DEFAULT_SCREENSHOTS.wallpaperHero1],
+                apkUrl: String(item.apkUrl || ''),
+                webUrl: String(item.webUrl || ''),
+                version: String(item.version || 'v1.0.0'),
+                fileSize: String(item.fileSize || '14.0 MB'),
+                techStack: Array.isArray(item.techStack)
+                  ? item.techStack.map(String)
+                  : ['Kotlin'],
+                downloads: Number(item.downloads) || 0,
+                isFeatured: Boolean(item.isFeatured),
+                createdAt: String(item.createdAt || new Date().toISOString()),
+              });
+            }
+            return { projects: validated };
+          } catch (err) {
+            return { error: 'Invalid JSON syntax. Please check your backup file.' };
+          }
+        }
+
+        function loadInitialProjects() {
+          try {
+            var saved = localStorage.getItem(STORAGE_KEY_PROJECTS);
+            if (saved) {
+              var res = parseImportedProjectsJson(saved);
+              if (res.projects && res.projects.length > 0) return res.projects;
+            }
+          } catch (e) {}
+          return INITIAL_PROJECTS.slice();
+        }
+
+        function loadInitialCloudConfig() {
+          try {
+            var saved = localStorage.getItem(STORAGE_KEY_CLOUD);
+            if (saved) return JSON.parse(saved);
+          } catch (e) {}
+          return { provider: 'none', endpointUrl: '', apiKey: '', autoSync: false };
+        }
+
+        function loadInitialPin() {
+          try {
+            return localStorage.getItem(STORAGE_KEY_PIN) || DEFAULT_ADMIN_PIN;
+          } catch (e) {
+            return DEFAULT_ADMIN_PIN;
+          }
+        }
+
+        var state = {
+          projects: loadInitialProjects(),
+          cloudConfig: loadInitialCloudConfig(),
+          adminPin: loadInitialPin(),
+          selectedCategory: 'All Creations',
+          searchQuery: '',
+          selectedProjectId: null,
+          downloadStates: {},
+          copiedLink: false,
+          isPinModalOpen: false,
+          pinError: '',
+          isAdminStudioOpen: false,
+          isAdminUnlocked: false,
+          adminActiveTab: 'publish', // 'publish' | 'manage' | 'cloud'
+          editingId: null,
+          form: getEmptyForm(),
+          techInput: 'Kotlin, Android',
+          screenshotUrlInput: '',
+          formError: '',
+          statusBanner: '',
+          syncMessage: '',
+          logoTapTimestamps: [],
+        };
+
+        function getEmptyForm() {
+          return {
+            title: '',
+            tagline: '',
+            description: '',
+            changelog: '',
+            type: 'apk',
+            category: 'Android APKs',
+            iconUrl: '',
+            screenshots: [],
+            apkUrl: '',
+            webUrl: '',
+            version: 'v1.0.0',
+            fileSize: '15.0 MB',
+            techStack: ['Kotlin', 'Android'],
+            isFeatured: false,
+          };
+        }
+
+        function persistProjects() {
+          try {
+            localStorage.setItem(STORAGE_KEY_PROJECTS, JSON.stringify(state.projects));
+          } catch (e) {}
+        }
+
+        function getFeaturedProject() {
+          for (var i = 0; i < state.projects.length; i++) {
+            if (state.projects[i].isFeatured) return state.projects[i];
+          }
+          return state.projects[0] || null;
+        }
+
+        function getFilteredProjects() {
+          var q = state.searchQuery.trim().toLowerCase();
+          var cat = state.selectedCategory;
+          return state.projects.filter(function (p) {
+            var matchesCat =
+              cat === 'All Creations' ||
+              p.category === cat ||
+              (cat === 'Android APKs' && (p.type === 'apk' || p.type === 'both')) ||
+              (cat === 'Web Apps' && (p.type === 'web' || p.type === 'both'));
+            if (!matchesCat) return false;
+            if (!q) return true;
+            var inStack = p.techStack.some(function (t) {
+              return t.toLowerCase().includes(q);
+            });
+            return (
+              p.title.toLowerCase().includes(q) ||
+              p.tagline.toLowerCase().includes(q) ||
+              p.description.toLowerCase().includes(q) ||
+              p.category.toLowerCase().includes(q) ||
+              inStack
+            );
+          });
+        }
+
+        function getSafeApkFilename(project) {
+          var slug = project.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '');
+          var ver = project.version.replace(/[^a-zA-Z0-9._-]+/g, '');
+          return (slug || 'pocketbawal-app') + '-' + (ver || 'v1.0') + '.apk';
+        }
+
+        function showToast(msg) {
+          var container = document.getElementById('toast-container');
+          if (!container) return;
+          container.innerHTML =
+            '<div role="status" class="glass-surface-elevated px-4 py-3 rounded-2xl text-xs font-semibold text-[#F8FAFC] shadow-2xl border border-[#06B6D4]/40 flex items-center gap-2">' +
+            '<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>' +
+            '<span>' +
+            escapeHtml(msg) +
+            '</span>' +
+            '</div>';
+          setTimeout(function () {
+            if (container) container.innerHTML = '';
+          }, 3000);
+        }
+
+        function showStudioStatus(msg) {
+          state.statusBanner = msg;
+          renderAdminStudioModal();
+          setTimeout(function () {
+            if (state.statusBanner === msg) {
+              state.statusBanner = '';
+              var bannerEl = document.getElementById('studio-status-banner');
+              if (bannerEl) bannerEl.innerHTML = '';
+            }
+          }, 3200);
+        }
+
+        // ---------------------------------------------------------------------------
+        // 5. ACTION HANDLERS (DOWNLOAD APK, LAUNCH WEB, SHARE, ADMIN CRUD)
+        // ---------------------------------------------------------------------------
+        function triggerApkDownload(projectId) {
+          var project = state.projects.find(function (p) {
+            return p.id === projectId;
+          });
+          if (!project) return;
+          if (state.downloadStates[project.id] === 'downloading') return;
+
+          state.downloadStates[project.id] = 'downloading';
+          project.downloads = (Number(project.downloads) || 0) + 1;
+          persistProjects();
+          renderStorefront();
+          if (state.selectedProjectId === project.id) renderDetailSheet();
+
+          var filename = getSafeApkFilename(project);
+          var link = document.createElement('a');
+          if (
+            project.apkUrl.indexOf('blob:') === 0 ||
+            project.apkUrl.indexOf('data:') === 0
+          ) {
+            link.href = project.apkUrl;
+          } else {
+            var manifestBlob = new Blob(
+              [
+                'POCKETBAWAL-SIGNED-APK-PACKAGE\nApp: ' +
+                  project.title +
+                  '\nVersion: ' +
+                  project.version +
+                  '\nSize: ' +
+                  project.fileSize +
+                  '\nSource: ' +
+                  project.apkUrl +
+                  '\nTimestamp: ' +
+                  new Date().toISOString() +
+                  '\n',
+              ],
+              { type: 'application/vnd.android.package-archive' }
+            );
+            link.href = URL.createObjectURL(manifestBlob);
+          }
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          setTimeout(function () {
+            state.downloadStates[project.id] = 'done';
+            renderStorefront();
+            if (state.selectedProjectId === project.id) renderDetailSheet();
+            showToast('Downloaded ' + filename + ' (' + project.fileSize + ')');
+
+            setTimeout(function () {
+              state.downloadStates[project.id] = 'idle';
+              renderStorefront();
+              if (state.selectedProjectId === project.id) renderDetailSheet();
+            }, 2600);
+          }, 600);
+        }
+
+        function triggerWebLaunch(projectId) {
+          var project = state.projects.find(function (p) {
+            return p.id === projectId;
+          });
+          if (!project) return;
+          project.downloads = (Number(project.downloads) || 0) + 1;
+          persistProjects();
+          renderStorefront();
+          if (state.selectedProjectId === project.id) renderDetailSheet();
+
+          var targetUrl = project.webUrl || 'https://pocketbawal.dev';
+          var link = document.createElement('a');
+          link.href = targetUrl;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          showToast('Launching ' + project.title + ' in new tab...');
+        }
+
+        function openSecretAdminTrigger() {
+          if (state.isAdminUnlocked) {
+            state.isAdminStudioOpen = true;
+            renderAdminStudioModal();
+          } else {
+            state.isPinModalOpen = true;
+            state.pinError = '';
+            renderAdminPinModal();
+          }
+        }
+
+        // ---------------------------------------------------------------------------
+        // 6. RENDER FUNCTIONS (STOREFRONT, HERO, CARDS, MODALS)
+        // ---------------------------------------------------------------------------
+        function renderHeaderNav() {
+          var nav = document.getElementById('header-category-nav');
+          if (!nav) return;
+          nav.innerHTML = PROJECT_CATEGORIES.map(function (cat) {
+            var isActive = state.selectedCategory === cat;
+            return (
+              '<button type="button" data-action="select-category" data-category="' +
+              escapeHtml(cat) +
+              '" class="whitespace-nowrap shrink-0 py-1 transition-colors border-b-2 cursor-pointer ' +
+              (isActive
+                ? 'text-[#F8FAFC] border-[#06B6D4]'
+                : 'border-transparent hover:text-[#F8FAFC]') +
+              '">' +
+              escapeHtml(cat) +
+              '</button>'
+            );
+          }).join('');
+        }
+
+        function renderHeroSpotlight() {
+          var heroEl = document.getElementById('hero-spotlight-section');
+          if (!heroEl) return;
+          var project = getFeaturedProject();
+          if (!project) {
+            heroEl.innerHTML = '';
+            return;
+          }
+
+          var dlState = state.downloadStates[project.id] || 'idle';
+          var heroBackdrop =
+            (project.screenshots && project.screenshots[0]) || project.iconUrl;
+          var isApkPrimary = project.type === 'apk' || project.type === 'both';
+
+          var primaryBtnHtml = '';
+          if (isApkPrimary) {
+            var btnInner = '';
+            if (dlState === 'downloading') {
+              btnInner = iconHtml('loader', 'w-4 h-4') + '<span>Downloading...</span>';
+            } else if (dlState === 'done') {
+              btnInner = iconHtml('check', 'w-4 h-4') + '<span>Downloaded ✓</span>';
+            } else {
+              btnInner =
+                iconHtml('download', 'w-4 h-4') +
+                '<span>Download APK (' +
+                escapeHtml(project.fileSize) +
+                ')</span>';
+            }
+            primaryBtnHtml =
+              '<button type="button" data-action="download-apk" data-id="' +
+              escapeHtml(project.id) +
+              '" class="min-h-[46px] px-6 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0 cursor-pointer ' +
+              (dlState === 'done'
+                ? 'bg-[#10B981] text-[#07070B]'
+                : 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] hover:opacity-95 text-white shadow-lg shadow-[#7C3AED]/20') +
+              '">' +
+              btnInner +
+              '</button>';
+          } else {
+            primaryBtnHtml =
+              '<button type="button" data-action="launch-web" data-id="' +
+              escapeHtml(project.id) +
+              '" class="min-h-[46px] px-6 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] hover:opacity-95 text-white shadow-lg shadow-[#7C3AED]/20 transition-all whitespace-nowrap shrink-0 cursor-pointer">' +
+              iconHtml('externalLink', 'w-4 h-4') +
+              '<span>Launch Web App</span></button>';
+          }
+
+          var secondaryWebBtnHtml = '';
+          if (project.type === 'both' && project.webUrl) {
+            secondaryWebBtnHtml =
+              '<button type="button" data-action="launch-web" data-id="' +
+              escapeHtml(project.id) +
+              '" class="min-h-[46px] px-4 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center justify-center gap-2 bg-white/[0.06] hover:bg-white/[0.12] text-[#F8FAFC] border border-white/10 transition-colors whitespace-nowrap shrink-0 cursor-pointer">' +
+              iconHtml('externalLink', 'w-4 h-4 text-[#06B6D4]') +
+              '<span>Launch Web</span></button>';
+          }
+
+          heroEl.innerHTML =
+            '<div class="flex flex-wrap items-center justify-between gap-4 pb-5 mb-6 border-b border-white/[0.07]">' +
+            '<div class="flex items-center gap-2 text-xs sm:text-sm text-[#94A3B8]">' +
+            iconHtml('shieldCheck', 'w-4 h-4 text-[#10B981]') +
+            '<span class="font-semibold text-[#F8FAFC]">Verified Creator</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span>Official App Store &amp; Web Hub — Built from Scratch, Ready in One Click</span>' +
+            '</div>' +
+            '<div class="flex items-center gap-4 text-xs font-medium text-[#94A3B8]">' +
+            '<a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="PocketBawal on YouTube" class="inline-flex items-center gap-1.5 hover:text-[#F8FAFC] transition-colors whitespace-nowrap shrink-0 min-h-[36px]">' +
+            iconHtml('youtube', 'w-4 h-4 text-[#06B6D4]') +
+            '<span>YouTube</span></a>' +
+            '<span aria-hidden="true" class="text-white/15">·</span>' +
+            '<a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="PocketBawal on Instagram" class="inline-flex items-center gap-1.5 hover:text-[#F8FAFC] transition-colors whitespace-nowrap shrink-0 min-h-[36px]">' +
+            iconHtml('instagram', 'w-4 h-4 text-[#7C3AED]') +
+            '<span>Instagram</span></a>' +
+            '<span aria-hidden="true" class="text-white/15">·</span>' +
+            '<a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="PocketBawal on GitHub" class="inline-flex items-center gap-1.5 hover:text-[#F8FAFC] transition-colors whitespace-nowrap shrink-0 min-h-[36px]">' +
+            iconHtml('github', 'w-4 h-4 text-[#F8FAFC]') +
+            '<span>GitHub</span></a>' +
+            '</div>' +
+            '</div>' +
+            '<div class="glass-surface rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">' +
+            '<div class="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">' +
+            '<div class="space-y-4">' +
+            '<div class="flex items-center gap-2 text-xs font-semibold tracking-wide text-[#06B6D4]">' +
+            '<span>Bawal Drop of the Week</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span class="text-[#10B981]">New Release</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span class="text-[#94A3B8]">' +
+            escapeHtml(project.category) +
+            '</span>' +
+            '</div>' +
+            '<div class="flex items-start gap-4 sm:gap-5">' +
+            '<img src="' +
+            escapeHtml(project.iconUrl) +
+            '" alt="' +
+            escapeHtml(project.title) +
+            ' icon" referrerpolicy="no-referrer" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shrink-0 shadow-lg border border-white/10 bg-[#121320]" />' +
+            '<div class="space-y-1.5 min-w-0">' +
+            '<h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#F8FAFC]" style="text-wrap: balance">' +
+            escapeHtml(project.title) +
+            '</h1>' +
+            '<p class="text-sm sm:text-base text-[#94A3B8] leading-relaxed">' +
+            escapeHtml(project.tagline) +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '<p class="text-sm text-[#94A3B8]/90 leading-relaxed line-clamp-2 max-w-2xl">' +
+            escapeHtml(project.description) +
+            '</p>' +
+            '</div>' +
+            '<div class="space-y-5 pt-2">' +
+            '<div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-mono tabular-nums text-[#94A3B8]">' +
+            '<span class="text-[#F8FAFC] font-medium">' +
+            escapeHtml(project.version) +
+            '</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span>' +
+            escapeHtml(project.fileSize) +
+            '</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span>' +
+            Number(project.downloads).toLocaleString() +
+            ' downloads</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span class="text-[#10B981]">100% Safe &amp; Scanned</span>' +
+            '</div>' +
+            '<div class="flex flex-wrap items-center gap-3">' +
+            primaryBtnHtml +
+            secondaryWebBtnHtml +
+            '<button type="button" data-action="inspect-project" data-id="' +
+            escapeHtml(project.id) +
+            '" class="min-h-[46px] px-4 py-2.5 rounded-xl font-medium text-sm text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.05] transition-colors whitespace-nowrap shrink-0 cursor-pointer">Inspect Details &amp; Changelog</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div data-action="inspect-project" data-id="' +
+            escapeHtml(project.id) +
+            '" role="button" tabindex="0" aria-label="Inspect ' +
+            escapeHtml(project.title) +
+            ' screenshots and details" class="lg:col-span-5 relative min-h-[240px] sm:min-h-[280px] lg:h-full overflow-hidden cursor-pointer group border-t lg:border-t-0 lg:border-l border-white/[0.08]">' +
+            '<img src="' +
+            escapeHtml(heroBackdrop) +
+            '" alt="' +
+            escapeHtml(project.title) +
+            ' preview backdrop" referrerpolicy="no-referrer" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300 bg-[#0A0D16]" />' +
+            '<div class="absolute inset-0 bg-gradient-to-t from-[#07070B]/85 via-[#07070B]/20 to-transparent flex items-end p-6 pointer-events-none">' +
+            '<div class="text-xs font-mono text-[#F8FAFC]/90">' +
+            escapeHtml((project.techStack || []).join(' · ')) +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        }
+
+        function renderCategoryPillsAndGrid() {
+          var filterBar = document.getElementById('category-filter-bar');
+          var countLabel = document.getElementById('catalog-count-label');
+          var gridContainer = document.getElementById('projects-grid-container');
+          if (!filterBar || !countLabel || !gridContainer) return;
+
+          filterBar.innerHTML = PROJECT_CATEGORIES.map(function (cat) {
+            var isSelected = state.selectedCategory === cat;
+            return (
+              '<button role="tab" aria-selected="' +
+              (isSelected ? 'true' : 'false') +
+              '" type="button" data-action="select-category" data-category="' +
+              escapeHtml(cat) +
+              '" class="min-h-[40px] px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ' +
+              (isSelected
+                ? 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white shadow-md shadow-[#7C3AED]/20'
+                : 'glass-surface text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/20') +
+              '">' +
+              escapeHtml(cat) +
+              '</button>'
+            );
+          }).join('');
+
+          var filtered = getFilteredProjects();
+          countLabel.textContent =
+            'Showing ' +
+            filtered.length +
+            ' of ' +
+            state.projects.length +
+            ' creations';
+
+          if (filtered.length === 0) {
+            gridContainer.innerHTML =
+              '<div class="glass-surface rounded-3xl p-12 text-center max-w-lg mx-auto my-8 space-y-4">' +
+              '<div class="w-8 h-8 text-[#06B6D4] mx-auto opacity-80">' +
+              SVG_ICONS.sparkles +
+              '</div>' +
+              '<div class="space-y-1">' +
+              '<h2 class="text-lg font-bold text-[#F8FAFC]">No Matching Creations Found</h2>' +
+              '<p class="text-xs sm:text-sm text-[#94A3B8]">No APKs or web apps matched &ldquo;' +
+              escapeHtml(state.searchQuery || state.selectedCategory) +
+              '&rdquo;.</p>' +
+              '</div>' +
+              '<button type="button" data-action="reset-filters" class="min-h-[42px] px-5 py-2 rounded-xl text-xs font-semibold bg-white/[0.08] hover:bg-white/[0.15] text-[#F8FAFC] inline-flex items-center gap-2 cursor-pointer">' +
+              iconHtml('rotateCcw', 'w-3.5 h-3.5') +
+              '<span>Reset Filters</span></button>' +
+              '</div>';
+            return;
+          }
+
+          var cardsHtml = filtered
+            .map(function (project) {
+              var dlState = state.downloadStates[project.id] || 'idle';
+              var typeLabel =
+                project.type === 'apk'
+                  ? 'APK'
+                  : project.type === 'web'
+                  ? 'WEB'
+                  : 'APK · WEB';
+              var typeColor =
+                project.type === 'apk' || project.type === 'both'
+                  ? 'text-[#10B981] font-semibold'
+                  : 'text-[#06B6D4] font-semibold';
+
+              var ctaHtml = '';
+              if (project.type === 'apk') {
+                var apkInner =
+                  dlState === 'downloading'
+                    ? iconHtml('loader', 'w-3.5 h-3.5') + '<span>Downloading...</span>'
+                    : dlState === 'done'
+                    ? iconHtml('check', 'w-3.5 h-3.5') + '<span>Downloaded ✓</span>'
+                    : iconHtml('download', 'w-3.5 h-3.5') + '<span>Get APK</span>';
+                ctaHtml =
+                  '<button type="button" data-action="download-apk" data-id="' +
+                  escapeHtml(project.id) +
+                  '" aria-label="Get APK for ' +
+                  escapeHtml(project.title) +
+                  '" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all whitespace-nowrap shrink-0 cursor-pointer ' +
+                  (dlState === 'done'
+                    ? 'bg-[#10B981] text-[#07070B]'
+                    : 'bg-[#10B981]/15 hover:bg-[#10B981] text-[#10B981] hover:text-[#07070B] border border-[#10B981]/30') +
+                  '">' +
+                  apkInner +
+                  '</button>';
+              } else if (project.type === 'web') {
+                ctaHtml =
+                  '<button type="button" data-action="launch-web" data-id="' +
+                  escapeHtml(project.id) +
+                  '" aria-label="Launch App ' +
+                  escapeHtml(project.title) +
+                  '" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 bg-[#06B6D4]/15 hover:bg-[#06B6D4] text-[#06B6D4] hover:text-[#07070B] border border-[#06B6D4]/30 transition-all whitespace-nowrap shrink-0 cursor-pointer">' +
+                  iconHtml('externalLink', 'w-3.5 h-3.5') +
+                  '<span>Launch App</span></button>';
+              } else {
+                var bothApkInner =
+                  dlState === 'downloading'
+                    ? iconHtml('loader', 'w-3.5 h-3.5') + '<span>Downloading...</span>'
+                    : dlState === 'done'
+                    ? iconHtml('check', 'w-3.5 h-3.5') + '<span>Downloaded ✓</span>'
+                    : iconHtml('download', 'w-3.5 h-3.5') + '<span>Get APK</span>';
+                ctaHtml =
+                  '<button type="button" data-action="download-apk" data-id="' +
+                  escapeHtml(project.id) +
+                  '" aria-label="Get APK for ' +
+                  escapeHtml(project.title) +
+                  '" class="min-h-[40px] px-3 py-2 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all whitespace-nowrap shrink-0 cursor-pointer ' +
+                  (dlState === 'done'
+                    ? 'bg-[#10B981] text-[#07070B]'
+                    : 'bg-[#10B981]/15 hover:bg-[#10B981] text-[#10B981] hover:text-[#07070B] border border-[#10B981]/30') +
+                  '">' +
+                  bothApkInner +
+                  '</button>' +
+                  '<button type="button" data-action="launch-web" data-id="' +
+                  escapeHtml(project.id) +
+                  '" aria-label="Launch Web version of ' +
+                  escapeHtml(project.title) +
+                  '" title="Launch Live Web App" class="min-h-[40px] px-2.5 py-2 rounded-xl text-xs font-semibold inline-flex items-center justify-center gap-1 bg-white/[0.06] hover:bg-[#06B6D4] text-[#06B6D4] hover:text-[#07070B] border border-white/10 transition-colors whitespace-nowrap shrink-0 cursor-pointer">' +
+                  iconHtml('externalLink', 'w-3.5 h-3.5') +
+                  '<span>Web</span></button>';
+              }
+
+              return (
+                '<article data-action="inspect-project" data-id="' +
+                escapeHtml(project.id) +
+                '" class="glass-surface rounded-2xl p-5 flex flex-col justify-between gap-5 hover:-translate-y-0.5 hover:border-white/20 transition-all duration-150 cursor-pointer group">' +
+                '<div class="space-y-3.5">' +
+                '<div class="flex items-start gap-4">' +
+                '<img src="' +
+                escapeHtml(project.iconUrl) +
+                '" alt="' +
+                escapeHtml(project.title) +
+                ' icon" referrerpolicy="no-referrer" class="w-16 h-16 rounded-2xl object-cover shrink-0 shadow-md border border-white/10 bg-[#121320]" />' +
+                '<div class="min-w-0 flex-1 space-y-1">' +
+                '<div class="flex items-center gap-1.5 text-xs font-mono text-[#94A3B8]">' +
+                '<span class="' +
+                typeColor +
+                '">' +
+                typeLabel +
+                '</span>' +
+                '<span aria-hidden="true">·</span>' +
+                '<span class="truncate">' +
+                escapeHtml(project.category) +
+                '</span>' +
+                '</div>' +
+                '<h3 class="text-base sm:text-lg font-bold text-[#F8FAFC] group-hover:text-[#06B6D4] transition-colors truncate">' +
+                escapeHtml(project.title) +
+                '</h3>' +
+                '<p class="text-xs sm:text-sm text-[#94A3B8] line-clamp-1">' +
+                escapeHtml(project.tagline) +
+                '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">' +
+                '<div class="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono tabular-nums text-[#94A3B8] min-w-0">' +
+                '<span class="text-[#F8FAFC]/90 shrink-0">' +
+                escapeHtml(project.version) +
+                '</span>' +
+                '<span aria-hidden="true">·</span>' +
+                '<span class="shrink-0">' +
+                escapeHtml(project.fileSize) +
+                '</span>' +
+                '<span aria-hidden="true">·</span>' +
+                '<span class="shrink-0" title="Total Downloads / Launches">' +
+                Number(project.downloads).toLocaleString() +
+                '</span>' +
+                '</div>' +
+                '<div class="flex items-center gap-1.5 shrink-0">' +
+                ctaHtml +
+                '</div>' +
+                '</div>' +
+                '</article>'
+              );
+            })
+            .join('');
+
+          gridContainer.innerHTML =
+            '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' +
+            cardsHtml +
+            '</div>';
+        }
+
+        function renderStorefront() {
+          renderHeaderNav();
+          renderHeroSpotlight();
+          renderCategoryPillsAndGrid();
+        }
+
+        // ---------------------------------------------------------------------------
+        // 7. APP DETAIL SHEET / MODAL
+        // ---------------------------------------------------------------------------
+        function renderDetailSheet() {
+          var root = document.getElementById('detail-sheet-root');
+          if (!root) return;
+          if (!state.selectedProjectId) {
+            root.innerHTML = '';
+            return;
+          }
+          var project = state.projects.find(function (p) {
+            return p.id === state.selectedProjectId;
+          });
+          if (!project) {
+            root.innerHTML = '';
+            return;
+          }
+
+          var dlState = state.downloadStates[project.id] || 'idle';
+          var shots = project.screenshots || [];
+          var galleryHtml = '';
+          if (shots.length > 0) {
+            galleryHtml =
+              '<div class="space-y-2.5">' +
+              '<h3 class="text-xs font-semibold tracking-wider text-[#94A3B8]">Preview Gallery (' +
+              shots.length +
+              ')</h3>' +
+              '<div class="flex gap-4 overflow-x-auto pb-2 no-scrollbar snap-x">' +
+              shots
+                .map(function (shot, idx) {
+                  return (
+                    '<div class="snap-start shrink-0 w-72 sm:w-96 aspect-video rounded-2xl overflow-hidden border border-white/10 bg-[#0A0D16]">' +
+                    '<img src="' +
+                    escapeHtml(shot) +
+                    '" alt="' +
+                    escapeHtml(project.title) +
+                    ' screenshot ' +
+                    (idx + 1) +
+                    '" referrerpolicy="no-referrer" class="w-full h-full object-cover" />' +
+                    '</div>'
+                  );
+                })
+                .join('') +
+              '</div>' +
+              '</div>';
+          }
+
+          var changelogHtml = project.changelog
+            ? '<div class="space-y-2 pt-4 border-t border-white/[0.07]">' +
+              '<h3 class="text-sm font-bold text-[#F8FAFC]">What&apos;s New (' +
+              escapeHtml(project.version) +
+              ')</h3>' +
+              '<p class="text-sm text-[#94A3B8] leading-relaxed font-mono">' +
+              escapeHtml(project.changelog) +
+              '</p>' +
+              '</div>'
+            : '';
+
+          var techHtml = (project.techStack || [])
+            .map(function (t, i) {
+              return (
+                (i > 0
+                  ? '<span aria-hidden="true" class="text-white/20">·</span>'
+                  : '') +
+                '<span>' +
+                escapeHtml(t) +
+                '</span>'
+              );
+            })
+            .join(' ');
+
+          var apkBtnHtml = '';
+          if (project.type === 'apk' || project.type === 'both') {
+            var apkLabel =
+              dlState === 'downloading'
+                ? iconHtml('loader', 'w-4 h-4') + '<span>Downloading...</span>'
+                : dlState === 'done'
+                ? iconHtml('check', 'w-4 h-4') + '<span>Downloaded ✓</span>'
+                : iconHtml('download', 'w-4 h-4') +
+                  '<span>Get APK (' +
+                  escapeHtml(project.fileSize) +
+                  ')</span>';
+            apkBtnHtml =
+              '<button type="button" data-action="download-apk" data-id="' +
+              escapeHtml(project.id) +
+              '" class="min-h-[46px] px-6 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0 cursor-pointer flex-1 sm:flex-initial ' +
+              (dlState === 'done'
+                ? 'bg-[#10B981] text-[#07070B]'
+                : 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white hover:opacity-95') +
+              '">' +
+              apkLabel +
+              '</button>';
+          }
+
+          var webBtnHtml = '';
+          if (project.type === 'web' || project.type === 'both') {
+            webBtnHtml =
+              '<button type="button" data-action="launch-web" data-id="' +
+              escapeHtml(project.id) +
+              '" class="min-h-[46px] px-5 py-2.5 rounded-xl font-semibold text-sm inline-flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0 cursor-pointer flex-1 sm:flex-initial ' +
+              (project.type === 'web'
+                ? 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white hover:opacity-95'
+                : 'bg-white/[0.08] hover:bg-white/[0.14] text-[#F8FAFC] border border-white/10') +
+              '">' +
+              iconHtml('externalLink', 'w-4 h-4') +
+              '<span>Launch Web App</span></button>';
+          }
+
+          var shareInner = state.copiedLink
+            ? iconHtml('check', 'w-4 h-4 text-[#10B981]') +
+              '<span class="text-[#10B981]">Link Copied</span>'
+            : iconHtml('share2', 'w-4 h-4 text-[#94A3B8]') +
+              '<span>Share App Link</span>';
+
+          root.innerHTML =
+            '<div data-action="close-detail-backdrop" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-sm p-0 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="detail-sheet-title">' +
+            '<div class="glass-surface-elevated w-full max-w-3xl max-h-[90vh] rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl border border-white/15">' +
+            '<div class="pt-3 px-6 pb-3 border-b border-white/[0.08] flex items-center justify-between relative">' +
+            '<div class="w-10 h-1.5 bg-white/20 rounded-full sm:hidden mx-auto absolute left-1/2 -translate-x-1/2 top-2.5"></div>' +
+            '<div class="flex items-center gap-2 text-xs font-medium text-[#10B981]">' +
+            iconHtml('shieldCheck', 'w-4 h-4') +
+            '<span>100% Safe &amp; Scanned · Official PocketBawal Build</span>' +
+            '</div>' +
+            '<button type="button" data-action="close-detail" aria-label="Close app details" class="min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.06] transition-colors cursor-pointer">' +
+            iconHtml('x', 'w-5 h-5') +
+            '</button>' +
+            '</div>' +
+            '<div class="p-6 sm:p-8 overflow-y-auto space-y-6">' +
+            '<div class="flex items-start gap-4 sm:gap-5">' +
+            '<img src="' +
+            escapeHtml(project.iconUrl) +
+            '" alt="' +
+            escapeHtml(project.title) +
+            ' icon" referrerpolicy="no-referrer" class="w-20 h-20 rounded-2xl object-cover shrink-0 shadow-lg border border-white/10 bg-[#121320]" />' +
+            '<div class="space-y-1.5 min-w-0 flex-1">' +
+            '<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-[#06B6D4]">' +
+            '<span>' +
+            escapeHtml(project.category) +
+            '</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span class="text-[#94A3B8]">' +
+            (project.type === 'apk'
+              ? 'Android APK'
+              : project.type === 'web'
+              ? 'Live Web App'
+              : 'Android APK & Live Web') +
+            '</span>' +
+            '</div>' +
+            '<h2 id="detail-sheet-title" class="text-xl sm:text-2xl font-extrabold text-[#F8FAFC]">' +
+            escapeHtml(project.title) +
+            '</h2>' +
+            '<p class="text-sm text-[#94A3B8]">' +
+            escapeHtml(project.tagline) +
+            '</p>' +
+            '<div class="flex flex-wrap items-center gap-2 pt-1 text-xs font-mono tabular-nums text-[#94A3B8]">' +
+            '<span class="text-[#F8FAFC]">' +
+            escapeHtml(project.version) +
+            '</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span>' +
+            escapeHtml(project.fileSize) +
+            '</span>' +
+            '<span aria-hidden="true">·</span>' +
+            '<span>' +
+            Number(project.downloads).toLocaleString() +
+            ' total installs/launches</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            galleryHtml +
+            '<div class="space-y-2 pt-2 border-t border-white/[0.07]">' +
+            '<h3 class="text-sm font-bold text-[#F8FAFC]">About this Creation</h3>' +
+            '<p class="text-sm text-[#94A3B8] leading-relaxed whitespace-pre-line">' +
+            escapeHtml(project.description) +
+            '</p>' +
+            '</div>' +
+            changelogHtml +
+            '<div class="space-y-2 pt-4 border-t border-white/[0.07]">' +
+            '<h3 class="text-sm font-bold text-[#F8FAFC]">Built With Tech Stack</h3>' +
+            '<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-[#06B6D4]">' +
+            techHtml +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="p-4 sm:px-8 sm:py-4 border-t border-white/[0.08] bg-[#0B0D16]/95 flex flex-wrap items-center justify-between gap-3">' +
+            '<div class="flex flex-wrap items-center gap-3 flex-1">' +
+            apkBtnHtml +
+            webBtnHtml +
+            '</div>' +
+            '<button type="button" data-action="share-project" data-id="' +
+            escapeHtml(project.id) +
+            '" class="min-h-[46px] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium inline-flex items-center gap-2 bg-white/[0.05] hover:bg-white/[0.1] text-[#F8FAFC] border border-white/10 transition-colors whitespace-nowrap shrink-0 cursor-pointer">' +
+            shareInner +
+            '</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        }
+
+        // ---------------------------------------------------------------------------
+        // 8. SECRET ADMIN PIN MODAL
+        // ---------------------------------------------------------------------------
+        function renderAdminPinModal() {
+          var root = document.getElementById('admin-pin-modal-root');
+          if (!root) return;
+          if (!state.isPinModalOpen) {
+            root.innerHTML = '';
+            return;
+          }
+
+          root.innerHTML =
+            '<div data-action="close-pin-backdrop" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="admin-pin-title">' +
+            '<div class="glass-surface-elevated w-full max-w-md rounded-3xl p-6 sm:p-8 space-y-6 border border-white/15 shadow-2xl">' +
+            '<div class="flex items-start justify-between gap-4">' +
+            '<div class="flex items-center gap-3">' +
+            '<div class="w-11 h-11 rounded-2xl bg-[#7C3AED]/20 border border-[#7C3AED]/40 flex items-center justify-center text-[#06B6D4]">' +
+            iconHtml('lock', 'w-5 h-5') +
+            '</div>' +
+            '<div>' +
+            '<h2 id="admin-pin-title" class="text-lg font-extrabold text-[#F8FAFC]">PocketBawal Creator Studio</h2>' +
+            '<p class="text-xs text-[#94A3B8]">Owner-only No-Code Publishing Access</p>' +
+            '</div>' +
+            '</div>' +
+            '<button type="button" data-action="close-pin-modal" aria-label="Close PIN modal" class="min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.06] cursor-pointer">' +
+            iconHtml('x', 'w-5 h-5') +
+            '</button>' +
+            '</div>' +
+            '<form id="admin-pin-form" class="space-y-4">' +
+            '<div class="space-y-2">' +
+            '<label for="creator-pin-input" class="block text-xs font-semibold text-[#94A3B8]">Enter Creator Security PIN</label>' +
+            '<div class="relative flex items-center">' +
+            '<span class="w-4 h-4 text-[#94A3B8] absolute left-3.5 pointer-events-none flex items-center">' +
+            SVG_ICONS.keyRound +
+            '</span>' +
+            '<input id="creator-pin-input" type="password" inputmode="numeric" placeholder="Enter PIN (default: 2026)" class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#090B12] border border-white/15 text-[#F8FAFC] font-mono text-base tracking-widest focus:border-[#06B6D4] focus:outline-none" />' +
+            '</div>' +
+            (state.pinError
+              ? '<p role="alert" class="text-xs font-medium text-rose-400">' +
+                escapeHtml(state.pinError) +
+                '</p>'
+              : '') +
+            '</div>' +
+            '<div class="flex items-center justify-end gap-3 pt-2">' +
+            '<button type="button" data-action="close-pin-modal" class="min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.05] cursor-pointer">Cancel</button>' +
+            '<button type="submit" class="min-h-[44px] px-6 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white hover:opacity-95 shadow-lg shadow-[#7C3AED]/20 cursor-pointer">Unlock Creator Studio</button>' +
+            '</div>' +
+            '</form>' +
+            '</div>' +
+            '</div>';
+
+          var pinInput = document.getElementById('creator-pin-input');
+          if (pinInput) pinInput.focus();
+        }
+
+        // ---------------------------------------------------------------------------
+        // 9. SECRET NO-CODE CREATOR STUDIO MODAL
+        // ---------------------------------------------------------------------------
+        function renderAdminStudioModal() {
+          var root = document.getElementById('admin-studio-modal-root');
+          if (!root) return;
+          if (!state.isAdminStudioOpen) {
+            root.innerHTML = '';
+            return;
+          }
+
+          var f = state.form;
+          var tab = state.adminActiveTab;
+
+          var tabBodyHtml = '';
+          if (tab === 'publish') {
+            var editingNotice = state.editingId
+              ? '<div class="p-3.5 rounded-2xl bg-[#7C3AED]/15 border border-[#7C3AED]/40 flex items-center justify-between gap-4">' +
+                '<span class="text-xs font-semibold text-[#F8FAFC]">Editing existing project: ' +
+                escapeHtml(f.title) +
+                '</span>' +
+                '<button type="button" data-action="reset-publish-form" class="text-xs font-semibold text-[#06B6D4] hover:underline cursor-pointer">Switch to New Project</button>' +
+                '</div>'
+              : '';
+
+            var errorNotice = state.formError
+              ? '<div role="alert" class="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-xs font-semibold text-rose-300">' +
+                escapeHtml(state.formError) +
+                '</div>'
+              : '';
+
+            var apkSectionHtml =
+              f.type === 'apk' || f.type === 'both'
+                ? '<div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">' +
+                  '<div class="flex flex-wrap items-center justify-between gap-2">' +
+                  '<span class="text-xs font-bold text-[#10B981]">Android APK Package Configuration</span>' +
+                  '<label class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#06B6D4] hover:underline cursor-pointer">' +
+                  iconHtml('upload', 'w-3.5 h-3.5') +
+                  '<span>Upload .APK File from Device</span>' +
+                  '<input id="studio-apk-file-input" type="file" accept=".apk,application/vnd.android.package-archive" class="hidden" />' +
+                  '</label>' +
+                  '</div>' +
+                  '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">' +
+                  '<div class="sm:col-span-2 space-y-1">' +
+                  '<label for="proj-apk-url" class="block text-xs text-[#94A3B8]">Direct APK Download URL *</label>' +
+                  '<input id="proj-apk-url" type="text" value="' +
+                  escapeHtml(f.apkUrl) +
+                  '" placeholder="https://github.com/.../app-release.apk" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+                  '</div>' +
+                  '<div class="grid grid-cols-2 gap-3">' +
+                  '<div class="space-y-1">' +
+                  '<label for="proj-version" class="block text-xs text-[#94A3B8]">Version</label>' +
+                  '<input id="proj-version" type="text" value="' +
+                  escapeHtml(f.version) +
+                  '" placeholder="v1.0.0" class="w-full px-3 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+                  '</div>' +
+                  '<div class="space-y-1">' +
+                  '<label for="proj-size" class="block text-xs text-[#94A3B8]">File Size</label>' +
+                  '<input id="proj-size" type="text" value="' +
+                  escapeHtml(f.fileSize) +
+                  '" placeholder="18.2 MB" class="w-full px-3 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+                  '</div>' +
+                  '</div>' +
+                  '</div>' +
+                  '</div>'
+                : '';
+
+            var webSectionHtml =
+              f.type === 'web' || f.type === 'both'
+                ? '<div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">' +
+                  '<span class="block text-xs font-bold text-[#06B6D4]">Live Web Application Configuration</span>' +
+                  '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">' +
+                  '<div class="sm:col-span-2 space-y-1">' +
+                  '<label for="proj-web-url" class="block text-xs text-[#94A3B8]">Live Website URL (https://) *</label>' +
+                  '<input id="proj-web-url" type="url" value="' +
+                  escapeHtml(f.webUrl) +
+                  '" placeholder="https://my-web-app.pocketbawal.dev" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+                  '</div>' +
+                  (f.type === 'web'
+                    ? '<div class="space-y-1">' +
+                      '<label for="proj-web-version" class="block text-xs text-[#94A3B8]">Release Version</label>' +
+                      '<input id="proj-web-version" type="text" value="' +
+                      escapeHtml(f.version) +
+                      '" placeholder="v1.0.0" class="w-full px-3 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+                      '</div>'
+                    : '') +
+                  '</div>' +
+                  '</div>'
+                : '';
+
+            var shotsPreviewHtml =
+              f.screenshots.length > 0
+                ? '<div class="flex items-center gap-2 overflow-x-auto pt-1">' +
+                  f.screenshots
+                    .map(function (shot, idx) {
+                      return (
+                        '<div class="relative w-16 h-10 rounded-lg overflow-hidden border border-white/15 shrink-0 group">' +
+                        '<img src="' +
+                        escapeHtml(shot) +
+                        '" alt="Screenshot ' +
+                        (idx + 1) +
+                        '" class="w-full h-full object-cover" />' +
+                        '<button type="button" data-action="remove-screenshot" data-index="' +
+                        idx +
+                        '" aria-label="Remove screenshot ' +
+                        (idx + 1) +
+                        '" class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-rose-400 cursor-pointer">' +
+                        iconHtml('trash2', 'w-3.5 h-3.5') +
+                        '</button>' +
+                        '</div>'
+                      );
+                    })
+                    .join('') +
+                  '</div>'
+                : '';
+
+            tabBodyHtml =
+              '<form id="studio-publish-form" class="space-y-6">' +
+              editingNotice +
+              errorNotice +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">' +
+              '<div class="space-y-1.5">' +
+              '<label for="proj-title" class="block text-xs font-semibold text-[#94A3B8]">Project Title *</label>' +
+              '<input id="proj-title" type="text" value="' +
+              escapeHtml(f.title) +
+              '" placeholder="e.g., Bawal Shader Engine Pro" class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-sm text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none" />' +
+              '</div>' +
+              '<div class="space-y-1.5">' +
+              '<div class="flex items-center justify-between">' +
+              '<label for="proj-tagline" class="block text-xs font-semibold text-[#94A3B8]">Short Tagline *</label>' +
+              '<span id="tagline-char-counter" class="text-[11px] font-mono tabular-nums text-[#94A3B8]">' +
+              f.tagline.length +
+              '/80</span>' +
+              '</div>' +
+              '<input id="proj-tagline" type="text" maxlength="80" value="' +
+              escapeHtml(f.tagline) +
+              '" placeholder="1-line punchy hook (max 80 chars)" class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-sm text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none" />' +
+              '</div>' +
+              '</div>' +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">' +
+              '<div class="space-y-1.5">' +
+              '<span class="block text-xs font-semibold text-[#94A3B8]">Project Type *</span>' +
+              '<div class="grid grid-cols-3 gap-2 p-1 rounded-xl bg-[#090B12] border border-white/10">' +
+              ['apk', 'web', 'both']
+                .map(function (tKey) {
+                  var label =
+                    tKey === 'apk'
+                      ? 'Android APK'
+                      : tKey === 'web'
+                      ? 'Live Website'
+                      : 'Both';
+                  var active = f.type === tKey;
+                  return (
+                    '<button type="button" data-action="set-form-type" data-type="' +
+                    tKey +
+                    '" class="py-2 px-3 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap cursor-pointer ' +
+                    (active
+                      ? 'bg-[#7C3AED] text-white'
+                      : 'text-[#94A3B8] hover:text-[#F8FAFC]') +
+                    '">' +
+                    label +
+                    '</button>'
+                  );
+                })
+                .join('') +
+              '</div>' +
+              '</div>' +
+              '<div class="space-y-1.5">' +
+              '<label for="proj-category" class="block text-xs font-semibold text-[#94A3B8]">Store Category *</label>' +
+              '<select id="proj-category" class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-sm text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none">' +
+              ['Android APKs', 'Web Apps', 'AI Tools', 'Games']
+                .map(function (c) {
+                  return (
+                    '<option value="' +
+                    c +
+                    '"' +
+                    (f.category === c ? ' selected' : '') +
+                    '>' +
+                    c +
+                    '</option>'
+                  );
+                })
+                .join('') +
+              '</select>' +
+              '</div>' +
+              '</div>' +
+              apkSectionHtml +
+              webSectionHtml +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">' +
+              '<div class="space-y-1.5">' +
+              '<label for="proj-desc" class="block text-xs font-semibold text-[#94A3B8]">Full Description *</label>' +
+              '<textarea id="proj-desc" rows="3" placeholder="Explain key features, architecture, and device requirements..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-sm text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none">' +
+              escapeHtml(f.description) +
+              '</textarea>' +
+              '</div>' +
+              '<div class="space-y-1.5">' +
+              '<label for="proj-changelog" class="block text-xs font-semibold text-[#94A3B8]">What&apos;s New / Changelog</label>' +
+              '<textarea id="proj-changelog" rows="3" placeholder="v1.0.0 — Added AMOLED dark theme and 120Hz touch support..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-sm text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none">' +
+              escapeHtml(f.changelog) +
+              '</textarea>' +
+              '</div>' +
+              '</div>' +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">' +
+              '<div class="space-y-2">' +
+              '<div class="flex items-center justify-between">' +
+              '<label for="proj-icon-url" class="text-xs font-semibold text-[#94A3B8]">App Squircle Icon (URL or Gallery)</label>' +
+              '<label class="inline-flex items-center gap-1 text-xs font-semibold text-[#06B6D4] hover:underline cursor-pointer">' +
+              iconHtml('upload', 'w-3.5 h-3.5') +
+              '<span>Choose Image</span>' +
+              '<input id="studio-icon-file-input" type="file" accept="image/*" class="hidden" />' +
+              '</label>' +
+              '</div>' +
+              '<div class="flex items-center gap-3">' +
+              '<img src="' +
+              escapeHtml(f.iconUrl || DEFAULT_ICONS.wallpaper3d) +
+              '" alt="Icon preview" class="w-11 h-11 rounded-xl object-cover shrink-0 border border-white/10 bg-[#121320]" />' +
+              '<input id="proj-icon-url" type="text" value="' +
+              escapeHtml(f.iconUrl) +
+              '" placeholder="Paste image URL or upload from gallery" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+              '</div>' +
+              '</div>' +
+              '<div class="space-y-2">' +
+              '<div class="flex items-center justify-between">' +
+              '<label for="proj-screenshot-url" class="text-xs font-semibold text-[#94A3B8]">Screenshots (' +
+              f.screenshots.length +
+              ')</label>' +
+              '<label class="inline-flex items-center gap-1 text-xs font-semibold text-[#06B6D4] hover:underline cursor-pointer">' +
+              iconHtml('upload', 'w-3.5 h-3.5') +
+              '<span>Upload Screenshots</span>' +
+              '<input id="studio-screenshots-file-input" type="file" accept="image/*" multiple class="hidden" />' +
+              '</label>' +
+              '</div>' +
+              '<div class="flex items-center gap-2">' +
+              '<input id="proj-screenshot-url" type="text" value="' +
+              escapeHtml(state.screenshotUrlInput) +
+              '" placeholder="Paste screenshot URL..." class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+              '<button type="button" data-action="add-screenshot-url" aria-label="Add screenshot URL" class="min-h-[38px] px-3 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-xs font-semibold text-[#F8FAFC] inline-flex items-center gap-1 shrink-0 cursor-pointer">' +
+              iconHtml('plus', 'w-3.5 h-3.5') +
+              '<span>Add</span></button>' +
+              '</div>' +
+              shotsPreviewHtml +
+              '</div>' +
+              '</div>' +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center pt-2">' +
+              '<div class="space-y-1.5">' +
+              '<label for="proj-tech" class="block text-xs font-semibold text-[#94A3B8]">Tech Stack (comma-separated)</label>' +
+              '<input id="proj-tech" type="text" value="' +
+              escapeHtml(state.techInput) +
+              '" placeholder="Kotlin, OpenGL, AI, WebView" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC] font-mono focus:border-[#06B6D4] focus:outline-none" />' +
+              '</div>' +
+              '<label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 cursor-pointer select-none mt-2 sm:mt-5">' +
+              '<input id="proj-featured-checkbox" type="checkbox"' +
+              (f.isFeatured ? ' checked' : '') +
+              ' class="w-4 h-4 accent-[#7C3AED] rounded" />' +
+              '<div>' +
+              '<span class="block text-xs font-bold text-[#F8FAFC]">Set as &ldquo;Bawal Drop of the Week&rdquo; Hero Spotlight</span>' +
+              '<span class="block text-[11px] text-[#94A3B8]">Features this creation at the top of the public storefront</span>' +
+              '</div>' +
+              '</label>' +
+              '</div>' +
+              '<div class="sticky -bottom-6 sm:-bottom-8 -mx-6 sm:-mx-8 px-6 sm:px-8 py-4 border-t border-white/[0.08] bg-[#0B0D16]/95 backdrop-blur-md flex items-center justify-between gap-3">' +
+              '<span class="text-xs text-[#94A3B8]">Instant zero-code publishing to live storefront</span>' +
+              '<div class="flex items-center gap-3">' +
+              (state.editingId
+                ? '<button type="button" data-action="reset-publish-form" class="min-h-[42px] px-4 py-2 rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-[#F8FAFC] cursor-pointer">Cancel Edit</button>'
+                : '') +
+              '<button type="submit" class="min-h-[44px] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 cursor-pointer whitespace-nowrap shrink-0">Publish to PocketBawal</button>' +
+              '</div>' +
+              '</div>' +
+              '</form>';
+          } else if (tab === 'manage') {
+            var rowsHtml = state.projects
+              .map(function (item) {
+                return (
+                  '<div class="p-4 flex flex-wrap items-center justify-between gap-4 hover:bg-white/[0.02]">' +
+                  '<div class="flex items-center gap-3.5 min-w-0">' +
+                  '<img src="' +
+                  escapeHtml(item.iconUrl) +
+                  '" alt="' +
+                  escapeHtml(item.title) +
+                  '" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-white/10 bg-[#121320]" />' +
+                  '<div class="min-w-0">' +
+                  '<div class="flex items-center gap-2">' +
+                  '<span class="text-sm font-bold text-[#F8FAFC] truncate">' +
+                  escapeHtml(item.title) +
+                  '</span>' +
+                  (item.isFeatured
+                    ? '<span class="text-[11px] font-mono text-[#06B6D4]">· Featured Drop</span>'
+                    : '') +
+                  '</div>' +
+                  '<div class="text-xs font-mono tabular-nums text-[#94A3B8]">' +
+                  escapeHtml(item.category) +
+                  ' · ' +
+                  escapeHtml(item.version) +
+                  ' · ' +
+                  escapeHtml(item.fileSize) +
+                  ' · ' +
+                  Number(item.downloads).toLocaleString() +
+                  ' installs</div>' +
+                  '</div>' +
+                  '</div>' +
+                  '<div class="flex items-center gap-2 shrink-0">' +
+                  '<button type="button" data-action="toggle-featured" data-id="' +
+                  escapeHtml(item.id) +
+                  '" aria-label="Set ' +
+                  escapeHtml(item.title) +
+                  ' as Featured Drop" title="Set as Hero Featured Drop" class="min-h-[38px] min-w-[38px] rounded-xl inline-flex items-center justify-center border transition-colors cursor-pointer ' +
+                  (item.isFeatured
+                    ? 'bg-[#7C3AED]/25 border-[#7C3AED] text-[#06B6D4]'
+                    : 'bg-white/[0.04] border-white/10 text-[#94A3B8] hover:text-[#F8FAFC]') +
+                  '">' +
+                  iconHtml(item.isFeatured ? 'starFilled' : 'star', 'w-4 h-4') +
+                  '</button>' +
+                  '<button type="button" data-action="edit-project" data-id="' +
+                  escapeHtml(item.id) +
+                  '" aria-label="Edit ' +
+                  escapeHtml(item.title) +
+                  '" class="min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-[#F8FAFC] border border-white/10 inline-flex items-center gap-1.5 cursor-pointer">' +
+                  iconHtml('edit3', 'w-3.5 h-3.5 text-[#06B6D4]') +
+                  '<span>Edit</span></button>' +
+                  '<button type="button" data-action="delete-project" data-id="' +
+                  escapeHtml(item.id) +
+                  '" aria-label="Delete ' +
+                  escapeHtml(item.title) +
+                  '" class="min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/25 text-rose-300 border border-rose-500/25 inline-flex items-center gap-1.5 cursor-pointer">' +
+                  iconHtml('trash2', 'w-3.5 h-3.5') +
+                  '<span>Delete</span></button>' +
+                  '</div>' +
+                  '</div>'
+                );
+              })
+              .join('');
+
+            tabBodyHtml =
+              '<div class="space-y-4">' +
+              '<div class="flex items-center justify-between">' +
+              '<p class="text-xs text-[#94A3B8]">Click the star icon to set the Hero Spotlight, or edit/delete any creation.</p>' +
+              '<button type="button" data-action="switch-to-new-publish" class="min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#7C3AED]/20 text-[#06B6D4] border border-[#7C3AED]/40 hover:bg-[#7C3AED]/30 inline-flex items-center gap-1.5 cursor-pointer">' +
+              iconHtml('plus', 'w-3.5 h-3.5') +
+              '<span>Add New Creation</span></button>' +
+              '</div>' +
+              '<div class="divide-y divide-white/[0.07] border border-white/10 rounded-2xl overflow-hidden bg-[#090B12]">' +
+              rowsHtml +
+              '</div>' +
+              '</div>';
+          } else if (tab === 'cloud') {
+            var cc = state.cloudConfig;
+            tabBodyHtml =
+              '<div class="space-y-6">' +
+              '<div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">' +
+              '<div class="flex flex-wrap items-center justify-between gap-4">' +
+              '<div>' +
+              '<h3 class="text-sm font-bold text-[#F8FAFC]">1-Click LocalStorage &amp; JSON Snapshot Backup</h3>' +
+              '<p class="text-xs text-[#94A3B8]">All creations automatically persist in LocalStorage. Export or import your entire catalog as a portable JSON file anytime.</p>' +
+              '</div>' +
+              '<div class="flex flex-wrap items-center gap-2.5">' +
+              '<button type="button" data-action="export-json" class="min-h-[40px] px-4 py-2 rounded-xl text-xs font-semibold bg-[#10B981]/15 hover:bg-[#10B981] text-[#10B981] hover:text-[#07070B] border border-[#10B981]/30 inline-flex items-center gap-1.5 transition-colors cursor-pointer">' +
+              iconHtml('download', 'w-3.5 h-3.5') +
+              '<span>Export Store JSON</span></button>' +
+              '<label class="min-h-[40px] px-4 py-2 rounded-xl text-xs font-semibold bg-[#06B6D4]/15 hover:bg-[#06B6D4] text-[#06B6D4] hover:text-[#07070B] border border-[#06B6D4]/30 inline-flex items-center gap-1.5 transition-colors cursor-pointer">' +
+              iconHtml('upload', 'w-3.5 h-3.5') +
+              '<span>Import JSON File</span>' +
+              '<input id="studio-import-json-file" type="file" accept=".json,application/json" class="hidden" />' +
+              '</label>' +
+              '<button type="button" data-action="reset-demo-data" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-[#94A3B8] hover:text-[#F8FAFC] border border-white/10 inline-flex items-center gap-1.5 cursor-pointer">' +
+              iconHtml('rotateCcw', 'w-3.5 h-3.5') +
+              '<span>Reset Demo Data</span></button>' +
+              '</div>' +
+              '</div>' +
+              '<div class="space-y-2 pt-2">' +
+              '<label for="raw-json-import" class="block text-xs text-[#94A3B8]">Or paste raw ProjectItem[] JSON array directly:</label>' +
+              '<div class="flex gap-2">' +
+              '<input id="raw-json-import" type="text" placeholder=\'[{"id":"pb_1","title":"My App",...}]\' class="flex-1 px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs font-mono text-[#F8FAFC] focus:border-[#06B6D4] focus:outline-none" />' +
+              '<button type="button" data-action="load-raw-json" class="min-h-[38px] px-4 py-2 rounded-xl text-xs font-semibold bg-white/[0.08] hover:bg-white/[0.15] text-[#F8FAFC] shrink-0 cursor-pointer">Load JSON</button>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '<div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">' +
+              '<div>' +
+              '<h3 class="text-sm font-bold text-[#F8FAFC]">Cloud Database Config (Firebase / Supabase / JSONBin)</h3>' +
+              '<p class="text-xs text-[#94A3B8]">Optionally connect your live cloud endpoint so newly published APKs and Web Apps sync globally across all visitor devices in real time.</p>' +
+              '</div>' +
+              '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">' +
+              '<div class="space-y-1">' +
+              '<label for="cloud-provider" class="block text-xs text-[#94A3B8]">Cloud Provider</label>' +
+              '<select id="cloud-provider" class="w-full px-3.5 py-2.5 rounded-xl bg-[#090B12] border border-white/15 text-xs sm:text-sm text-[#F8FAFC]">' +
+              '<option value="none"' +
+              (cc.provider === 'none' ? ' selected' : '') +
+              '>LocalStorage Only (Default)</option>' +
+              '<option value="jsonbin"' +
+              (cc.provider === 'jsonbin' ? ' selected' : '') +
+              '>JSONBin.io v3 Bin</option>' +
+              '<option value="firebase"' +
+              (cc.provider === 'firebase' ? ' selected' : '') +
+              '>Firebase Realtime DB REST</option>' +
+              '<option value="supabase"' +
+              (cc.provider === 'supabase' ? ' selected' : '') +
+              '>Supabase REST Endpoint</option>' +
+              '</select>' +
+              '</div>' +
+              '<div class="space-y-1">' +
+              '<label for="cloud-endpoint" class="block text-xs text-[#94A3B8]">Cloud Endpoint / Bin URL</label>' +
+              '<input id="cloud-endpoint" type="text" value="' +
+              escapeHtml(cc.endpointUrl) +
+              '" placeholder="https://api.jsonbin.io/v3/b/YOUR_BIN_ID" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs font-mono text-[#F8FAFC]" />' +
+              '</div>' +
+              '<div class="space-y-1">' +
+              '<label for="cloud-apikey" class="block text-xs text-[#94A3B8]">API Key / Master Token</label>' +
+              '<input id="cloud-apikey" type="password" value="' +
+              escapeHtml(cc.apiKey) +
+              '" placeholder="X-Master-Key or Bearer token" class="w-full px-3.5 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs font-mono text-[#F8FAFC]" />' +
+              '</div>' +
+              '</div>' +
+              '<div class="flex flex-wrap items-center justify-between gap-3 pt-2">' +
+              '<div class="flex items-center gap-2">' +
+              '<button type="button" data-action="save-cloud-config" class="min-h-[40px] px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white cursor-pointer">Save Cloud Config</button>' +
+              '<button type="button" data-action="cloud-sync-push" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.07] hover:bg-white/[0.14] text-[#F8FAFC] cursor-pointer">Push Store to Cloud</button>' +
+              '<button type="button" data-action="cloud-sync-pull" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.07] hover:bg-white/[0.14] text-[#F8FAFC] cursor-pointer">Pull from Cloud</button>' +
+              '</div>' +
+              (state.syncMessage
+                ? '<span class="text-xs font-mono text-[#06B6D4]">' +
+                  escapeHtml(state.syncMessage) +
+                  '</span>'
+                : '') +
+              '</div>' +
+              '</div>' +
+              '<div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-wrap items-center justify-between gap-4">' +
+              '<div>' +
+              '<h3 class="text-sm font-bold text-[#F8FAFC]">Creator Studio Security PIN</h3>' +
+              '<p class="text-xs text-[#94A3B8]">Default PIN is 2026. Customize your owner PIN for unlocking this dashboard.</p>' +
+              '</div>' +
+              '<div class="flex items-center gap-2">' +
+              '<input id="new-admin-pin-input" type="text" aria-label="New Creator PIN" value="' +
+              escapeHtml(state.adminPin) +
+              '" class="w-28 px-3 py-2 rounded-xl bg-[#090B12] border border-white/15 text-xs font-mono text-center text-[#F8FAFC]" />' +
+              '<button type="button" data-action="update-admin-pin" class="min-h-[38px] px-4 py-2 rounded-xl text-xs font-semibold bg-white/[0.08] hover:bg-white/[0.15] text-[#F8FAFC] cursor-pointer">Update PIN</button>' +
+              '</div>' +
+              '</div>' +
+              '</div>';
+          }
+
+          root.innerHTML =
+            '<div data-action="close-studio-backdrop" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-md p-0 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="creator-studio-heading">' +
+            '<div class="glass-surface-elevated w-full max-w-4xl max-h-[92vh] rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden border border-white/15 shadow-2xl">' +
+            '<div class="px-6 py-4 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-4">' +
+            '<div>' +
+            '<h2 id="creator-studio-heading" class="text-lg sm:text-xl font-extrabold text-[#F8FAFC]">PocketBawal No-Code Creator Studio</h2>' +
+            '<p class="text-xs text-[#94A3B8]">Publish APKs, launch web hubs, and manage cloud sync without touching source code</p>' +
+            '</div>' +
+            '<button type="button" data-action="close-studio" aria-label="Close Creator Studio" class="min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.08] cursor-pointer">' +
+            iconHtml('x', 'w-5 h-5') +
+            '</button>' +
+            '</div>' +
+            '<div class="px-6 py-2.5 bg-[#090B14] border-b border-white/[0.08] flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">' +
+            '<div class="flex items-center gap-2">' +
+            '<button type="button" data-action="set-studio-tab" data-tab="publish" class="min-h-[38px] px-4 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer ' +
+            (tab === 'publish'
+              ? 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white'
+              : 'text-[#94A3B8] hover:text-[#F8FAFC] bg-white/[0.04]') +
+            '">' +
+            iconHtml('folderPlus', 'w-4 h-4') +
+            '<span>' +
+            (state.editingId ? 'Edit Creation' : 'Publish Creation') +
+            '</span></button>' +
+            '<button type="button" data-action="set-studio-tab" data-tab="manage" class="min-h-[38px] px-4 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer ' +
+            (tab === 'manage'
+              ? 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white'
+              : 'text-[#94A3B8] hover:text-[#F8FAFC] bg-white/[0.04]') +
+            '">' +
+            iconHtml('layers', 'w-4 h-4') +
+            '<span>Manage Creations (' +
+            state.projects.length +
+            ')</span></button>' +
+            '<button type="button" data-action="set-studio-tab" data-tab="cloud" class="min-h-[38px] px-4 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer ' +
+            (tab === 'cloud'
+              ? 'bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white'
+              : 'text-[#94A3B8] hover:text-[#F8FAFC] bg-white/[0.04]') +
+            '">' +
+            iconHtml('cloud', 'w-4 h-4') +
+            '<span>Cloud Database &amp; Backup</span></button>' +
+            '</div>' +
+            '<div id="studio-status-banner">' +
+            (state.statusBanner
+              ? '<div role="status" class="text-xs font-semibold text-[#10B981] flex items-center gap-1.5 whitespace-nowrap shrink-0">' +
+                iconHtml('check', 'w-4 h-4') +
+                '<span>' +
+                escapeHtml(state.statusBanner) +
+                '</span></div>'
+              : '') +
+            '</div>' +
+            '</div>' +
+            '<div class="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">' +
+            tabBodyHtml +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+          bindStudioFormInputs();
+        }
+
+        function syncDraftFormFromDom() {
+          var titleEl = document.getElementById('proj-title');
+          var taglineEl = document.getElementById('proj-tagline');
+          var catEl = document.getElementById('proj-category');
+          var apkUrlEl = document.getElementById('proj-apk-url');
+          var verEl =
+            document.getElementById('proj-version') ||
+            document.getElementById('proj-web-version');
+          var sizeEl = document.getElementById('proj-size');
+          var webUrlEl = document.getElementById('proj-web-url');
+          var descEl = document.getElementById('proj-desc');
+          var changelogEl = document.getElementById('proj-changelog');
+          var iconUrlEl = document.getElementById('proj-icon-url');
+          var shotUrlEl = document.getElementById('proj-screenshot-url');
+          var techEl = document.getElementById('proj-tech');
+          var featEl = document.getElementById('proj-featured-checkbox');
+
+          if (titleEl) state.form.title = titleEl.value;
+          if (taglineEl) state.form.tagline = taglineEl.value;
+          if (catEl) state.form.category = catEl.value;
+          if (apkUrlEl) state.form.apkUrl = apkUrlEl.value;
+          if (verEl) state.form.version = verEl.value;
+          if (sizeEl) state.form.fileSize = sizeEl.value;
+          if (webUrlEl) state.form.webUrl = webUrlEl.value;
+          if (descEl) state.form.description = descEl.value;
+          if (changelogEl) state.form.changelog = changelogEl.value;
+          if (iconUrlEl) state.form.iconUrl = iconUrlEl.value;
+          if (shotUrlEl) state.screenshotUrlInput = shotUrlEl.value;
+          if (techEl) state.techInput = techEl.value;
+          if (featEl) state.form.isFeatured = Boolean(featEl.checked);
+        }
+
+        function bindStudioFormInputs() {
+          var taglineEl = document.getElementById('proj-tagline');
+          if (taglineEl) {
+            taglineEl.addEventListener('input', function () {
+              state.form.tagline = taglineEl.value;
+              var counter = document.getElementById('tagline-char-counter');
+              if (counter) counter.textContent = taglineEl.value.length + '/80';
+            });
+          }
+
+          var apkFileInput = document.getElementById('studio-apk-file-input');
+          if (apkFileInput) {
+            apkFileInput.addEventListener('change', function (e) {
+              syncDraftFormFromDom();
+              var file = e.target.files && e.target.files[0];
+              if (!file) return;
+              var sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+              state.form.apkUrl = URL.createObjectURL(file);
+              state.form.fileSize = sizeMb + ' MB';
+              showStudioStatus('Attached ' + file.name + ' (' + sizeMb + ' MB)');
+            });
+          }
+
+          var iconFileInput = document.getElementById('studio-icon-file-input');
+          if (iconFileInput) {
+            iconFileInput.addEventListener('change', function (e) {
+              syncDraftFormFromDom();
+              var file = e.target.files && e.target.files[0];
+              if (!file) return;
+              var reader = new FileReader();
+              reader.onload = function () {
+                if (typeof reader.result === 'string') {
+                  state.form.iconUrl = reader.result;
+                  renderAdminStudioModal();
+                }
+              };
+              reader.readAsDataURL(file);
+            });
+          }
+
+          var shotsFileInput = document.getElementById('studio-screenshots-file-input');
+          if (shotsFileInput) {
+            shotsFileInput.addEventListener('change', function (e) {
+              syncDraftFormFromDom();
+              var files = e.target.files;
+              if (!files || files.length === 0) return;
+              Array.from(files).forEach(function (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                  if (typeof reader.result === 'string') {
+                    state.form.screenshots.push(reader.result);
+                    renderAdminStudioModal();
+                  }
+                };
+                reader.readAsDataURL(file);
+              });
+            });
+          }
+
+          var importJsonInput = document.getElementById('studio-import-json-file');
+          if (importJsonInput) {
+            importJsonInput.addEventListener('change', function (e) {
+              var file = e.target.files && e.target.files[0];
+              if (!file) return;
+              var reader = new FileReader();
+              reader.onload = function () {
+                var content = typeof reader.result === 'string' ? reader.result : '';
+                var parsed = parseImportedProjectsJson(content);
+                if (parsed.error || !parsed.projects) {
+                  state.syncMessage = parsed.error || 'Failed to import JSON.';
+                  renderAdminStudioModal();
+                } else {
+                  state.projects = parsed.projects;
+                  persistProjects();
+                  state.syncMessage =
+                    'Successfully imported ' + parsed.projects.length + ' creations!';
+                  renderStorefront();
+                  showStudioStatus('Imported ' + parsed.projects.length + ' creations!');
+                }
+              };
+              reader.readAsText(file);
+            });
+          }
+        }
+
+        // ---------------------------------------------------------------------------
+        // 10. EVENT DELEGATION & INITIALIZATION
+        // ---------------------------------------------------------------------------
+        function initStaticIconsAndEvents() {
+          document.querySelectorAll('[data-icon]').forEach(function (el) {
+            var name = el.getAttribute('data-icon');
+            if (name && SVG_ICONS[name]) el.innerHTML = SVG_ICONS[name];
+          });
+
+          var clearBtn = document.getElementById('clear-search-btn');
+          if (clearBtn) clearBtn.innerHTML = iconHtml('x', 'w-3.5 h-3.5');
+
+          var searchInput = document.getElementById('store-search-input');
+          if (searchInput) {
+            searchInput.addEventListener('input', function () {
+              state.searchQuery = searchInput.value;
+              if (clearBtn) {
+                if (state.searchQuery) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+              }
+              renderCategoryPillsAndGrid();
+            });
+          }
+
+          if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+              state.searchQuery = '';
+              if (searchInput) {
+                searchInput.value = '';
+                searchInput.focus();
+              }
+              clearBtn.classList.add('hidden');
+              renderCategoryPillsAndGrid();
+            });
+          }
+
+          // 5-tap secret Admin trigger on PocketBawal logo
+          var logoLink = document.getElementById('brand-logo-link');
+          if (logoLink) {
+            logoLink.addEventListener('click', function (e) {
+              e.preventDefault();
+              var now = Date.now();
+              state.logoTapTimestamps = state.logoTapTimestamps.filter(function (t) {
+                return now - t < 1800;
+              });
+              state.logoTapTimestamps.push(now);
+              if (state.logoTapTimestamps.length >= 5) {
+                state.logoTapTimestamps = [];
+                openSecretAdminTrigger();
+              }
+            });
+          }
+
+          var footerLockBtn = document.getElementById('footer-creator-lock-btn');
+          if (footerLockBtn) {
+            footerLockBtn.addEventListener('click', function () {
+              openSecretAdminTrigger();
+            });
+          }
+
+          // Global Click Delegation
+          document.addEventListener('click', function (e) {
+            var actionEl = e.target.closest('[data-action]');
+            if (!actionEl) return;
+            var action = actionEl.getAttribute('data-action');
+
+            if (action === 'select-category') {
+              e.stopPropagation();
+              state.selectedCategory =
+                actionEl.getAttribute('data-category') || 'All Creations';
+              renderStorefront();
+            } else if (action === 'reset-filters') {
+              e.stopPropagation();
+              state.selectedCategory = 'All Creations';
+              state.searchQuery = '';
+              var sInput = document.getElementById('store-search-input');
+              if (sInput) sInput.value = '';
+              if (clearBtn) clearBtn.classList.add('hidden');
+              renderStorefront();
+            } else if (action === 'download-apk') {
+              e.stopPropagation();
+              triggerApkDownload(actionEl.getAttribute('data-id'));
+            } else if (action === 'launch-web') {
+              e.stopPropagation();
+              triggerWebLaunch(actionEl.getAttribute('data-id'));
+            } else if (action === 'inspect-project') {
+              state.selectedProjectId = actionEl.getAttribute('data-id');
+              state.copiedLink = false;
+              renderDetailSheet();
+            } else if (
+              action === 'close-detail' ||
+              (action === 'close-detail-backdrop' && e.target === actionEl)
+            ) {
+              state.selectedProjectId = null;
+              renderDetailSheet();
+            } else if (action === 'share-project') {
+              e.stopPropagation();
+              var pid = actionEl.getAttribute('data-id');
+              var shareUrl =
+                window.location.origin +
+                window.location.pathname +
+                '?app=' +
+                encodeURIComponent(pid || '');
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareUrl).catch(function () {});
+              }
+              state.copiedLink = true;
+              renderDetailSheet();
+              setTimeout(function () {
+                state.copiedLink = false;
+                if (state.selectedProjectId === pid) renderDetailSheet();
+              }, 2200);
+            } else if (
+              action === 'close-pin-modal' ||
+              (action === 'close-pin-backdrop' && e.target === actionEl)
+            ) {
+              state.isPinModalOpen = false;
+              renderAdminPinModal();
+            } else if (
+              action === 'close-studio' ||
+              (action === 'close-studio-backdrop' && e.target === actionEl)
+            ) {
+              state.isAdminStudioOpen = false;
+              renderAdminStudioModal();
+            } else if (action === 'set-studio-tab') {
+              syncDraftFormFromDom();
+              state.adminActiveTab = actionEl.getAttribute('data-tab') || 'publish';
+              renderAdminStudioModal();
+            } else if (action === 'set-form-type') {
+              syncDraftFormFromDom();
+              var newType = actionEl.getAttribute('data-type') || 'apk';
+              state.form.type = newType;
+              if (newType === 'web') state.form.fileSize = 'Cloud';
+              else if (state.form.fileSize === 'Cloud')
+                state.form.fileSize = '14.5 MB';
+              renderAdminStudioModal();
+            } else if (action === 'add-screenshot-url') {
+              syncDraftFormFromDom();
+              if (state.screenshotUrlInput.trim()) {
+                state.form.screenshots.push(state.screenshotUrlInput.trim());
+                state.screenshotUrlInput = '';
+                renderAdminStudioModal();
+              }
+            } else if (action === 'remove-screenshot') {
+              syncDraftFormFromDom();
+              var rmIdx = Number(actionEl.getAttribute('data-index'));
+              state.form.screenshots = state.form.screenshots.filter(function (_, i) {
+                return i !== rmIdx;
+              });
+              renderAdminStudioModal();
+            } else if (action === 'reset-publish-form') {
+              state.editingId = null;
+              state.form = getEmptyForm();
+              state.techInput = 'Kotlin, Android';
+              state.screenshotUrlInput = '';
+              state.formError = '';
+              renderAdminStudioModal();
+            } else if (action === 'switch-to-new-publish') {
+              state.editingId = null;
+              state.form = getEmptyForm();
+              state.techInput = 'Kotlin, Android';
+              state.formError = '';
+              state.adminActiveTab = 'publish';
+              renderAdminStudioModal();
+            } else if (action === 'toggle-featured') {
+              var targetId = actionEl.getAttribute('data-id');
+              state.projects = state.projects.map(function (p) {
+                return Object.assign({}, p, { isFeatured: p.id === targetId });
+              });
+              persistProjects();
+              renderStorefront();
+              renderAdminStudioModal();
+            } else if (action === 'edit-project') {
+              var editId = actionEl.getAttribute('data-id');
+              var item = state.projects.find(function (p) {
+                return p.id === editId;
+              });
+              if (item) {
+                state.editingId = item.id;
+                state.form = {
+                  title: item.title,
+                  tagline: item.tagline,
+                  description: item.description,
+                  changelog: item.changelog || '',
+                  type: item.type,
+                  category: item.category,
+                  iconUrl: item.iconUrl,
+                  screenshots: (item.screenshots || []).slice(),
+                  apkUrl: item.apkUrl || '',
+                  webUrl: item.webUrl || '',
+                  version: item.version || 'v1.0.0',
+                  fileSize: item.fileSize || '15.0 MB',
+                  techStack: (item.techStack || []).slice(),
+                  isFeatured: Boolean(item.isFeatured),
+                };
+                state.techInput = (item.techStack || []).join(', ');
+                state.formError = '';
+                state.adminActiveTab = 'publish';
+                renderAdminStudioModal();
+              }
+            } else if (action === 'delete-project') {
+              var delId = actionEl.getAttribute('data-id');
+              var delItem = state.projects.find(function (p) {
+                return p.id === delId;
+              });
+              state.projects = state.projects.filter(function (p) {
+                return p.id !== delId;
+              });
+              if (
+                state.projects.length > 0 &&
+                !state.projects.some(function (p) {
+                  return p.isFeatured;
+                })
+              ) {
+                state.projects[0].isFeatured = true;
+              }
+              persistProjects();
+              if (state.selectedProjectId === delId) {
+                state.selectedProjectId = null;
+                renderDetailSheet();
+              }
+              renderStorefront();
+              showStudioStatus(
+                'Deleted "' + (delItem ? delItem.title : 'Creation') + '"'
+              );
+            } else if (action === 'export-json') {
+              var dataStr = JSON.stringify(state.projects, null, 2);
+              var blob = new Blob([dataStr], { type: 'application/json' });
+              var url = URL.createObjectURL(blob);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download =
+                'pocketbawal-store-backup-' +
+                new Date().toISOString().slice(0, 10) +
+                '.json';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              showStudioStatus('Exported PocketBawal JSON backup!');
+            } else if (action === 'reset-demo-data') {
+              state.projects = INITIAL_PROJECTS.slice();
+              persistProjects();
+              renderStorefront();
+              showStudioStatus('Restored default PocketBawal catalog');
+            } else if (action === 'load-raw-json') {
+              var rawInput = document.getElementById('raw-json-import');
+              var rawVal = rawInput ? rawInput.value : '';
+              var parsed = parseImportedProjectsJson(rawVal);
+              if (parsed.error || !parsed.projects) {
+                state.syncMessage = parsed.error || 'Invalid JSON.';
+                renderAdminStudioModal();
+              } else {
+                state.projects = parsed.projects;
+                persistProjects();
+                state.syncMessage =
+                  'Imported ' + parsed.projects.length + ' creations from JSON!';
+                renderStorefront();
+                showStudioStatus(
+                  'Imported ' + parsed.projects.length + ' creations!'
+                );
+              }
+            } else if (action === 'save-cloud-config') {
+              var provEl = document.getElementById('cloud-provider');
+              var endEl = document.getElementById('cloud-endpoint');
+              var keyEl = document.getElementById('cloud-apikey');
+              state.cloudConfig = {
+                provider: provEl ? provEl.value : 'none',
+                endpointUrl: endEl ? endEl.value.trim() : '',
+                apiKey: keyEl ? keyEl.value.trim() : '',
+                autoSync: false,
+              };
+              try {
+                localStorage.setItem(
+                  STORAGE_KEY_CLOUD,
+                  JSON.stringify(state.cloudConfig)
+                );
+              } catch (err) {}
+              state.syncMessage = 'Saved Cloud Database configuration.';
+              showStudioStatus('Saved Cloud Config');
+            } else if (
+              action === 'cloud-sync-push' ||
+              action === 'cloud-sync-pull'
+            ) {
+              var provEl2 = document.getElementById('cloud-provider');
+              var endEl2 = document.getElementById('cloud-endpoint');
+              var keyEl2 = document.getElementById('cloud-apikey');
+              state.cloudConfig = {
+                provider: provEl2 ? provEl2.value : state.cloudConfig.provider,
+                endpointUrl: endEl2
+                  ? endEl2.value.trim()
+                  : state.cloudConfig.endpointUrl,
+                apiKey: keyEl2 ? keyEl2.value.trim() : state.cloudConfig.apiKey,
+                autoSync: false,
+              };
+              if (!state.cloudConfig.endpointUrl) {
+                state.syncMessage = 'Please enter a valid Cloud Endpoint URL first.';
+                renderAdminStudioModal();
+                return;
+              }
+              var headers = { 'Content-Type': 'application/json' };
+              if (state.cloudConfig.apiKey) {
+                if (state.cloudConfig.provider === 'jsonbin') {
+                  headers['X-Master-Key'] = state.cloudConfig.apiKey;
+                } else {
+                  headers['Authorization'] = 'Bearer ' + state.cloudConfig.apiKey;
+                }
+              }
+              if (action === 'cloud-sync-push') {
+                fetch(state.cloudConfig.endpointUrl, {
+                  method:
+                    state.cloudConfig.provider === 'jsonbin' ? 'PUT' : 'POST',
+                  headers: headers,
+                  body: JSON.stringify({ projects: state.projects }),
+                })
+                  .then(function (res) {
+                    state.syncMessage = res.ok
+                      ? 'Synced ' + state.projects.length + ' creations to Cloud!'
+                      : 'Cloud push HTTP ' + res.status;
+                    renderAdminStudioModal();
+                  })
+                  .catch(function () {
+                    state.syncMessage =
+                      'Network offline — LocalStorage backup active.';
+                    renderAdminStudioModal();
+                  });
+              } else {
+                fetch(state.cloudConfig.endpointUrl, {
+                  method: 'GET',
+                  headers: headers,
+                })
+                  .then(function (res) {
+                    return res.json();
+                  })
+                  .then(function (data) {
+                    var list =
+                      (data && data.record && data.record.projects) ||
+                      (data && data.projects) ||
+                      data;
+                    var parsed2 = parseImportedProjectsJson(JSON.stringify(list));
+                    if (parsed2.projects) {
+                      state.projects = parsed2.projects;
+                      persistProjects();
+                      state.syncMessage =
+                        'Pulled ' + parsed2.projects.length + ' creations from Cloud!';
+                      renderStorefront();
+                    } else {
+                      state.syncMessage =
+                        parsed2.error || 'Invalid cloud schema.';
+                    }
+                    renderAdminStudioModal();
+                  })
+                  .catch(function () {
+                    state.syncMessage = 'Cloud pull failed — using LocalStorage.';
+                    renderAdminStudioModal();
+                  });
+              }
+            } else if (action === 'update-admin-pin') {
+              var newPinEl = document.getElementById('new-admin-pin-input');
+              if (newPinEl && newPinEl.value.trim()) {
+                state.adminPin = newPinEl.value.trim();
+                try {
+                  localStorage.setItem(STORAGE_KEY_PIN, state.adminPin);
+                } catch (err) {}
+                showStudioStatus('Updated Creator PIN!');
+              }
+            }
+          });
+
+          // Form Submit Delegation (PIN Modal & Publish Creation Form)
+          document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'admin-pin-form') {
+              e.preventDefault();
+              var pinInput = document.getElementById('creator-pin-input');
+              var entered = pinInput ? pinInput.value.trim() : '';
+              if (entered === state.adminPin.trim() && state.adminPin.trim().length > 0) {
+                state.isPinModalOpen = false;
+                state.pinError = '';
+                state.isAdminUnlocked = true;
+                state.isAdminStudioOpen = true;
+                renderAdminPinModal();
+                renderAdminStudioModal();
+              } else {
+                state.pinError = 'Invalid Creator PIN. Default demo PIN is 2026.';
+                renderAdminPinModal();
+              }
+            } else if (e.target && e.target.id === 'studio-publish-form') {
+              e.preventDefault();
+              syncDraftFormFromDom();
+              var f = state.form;
+              if (!f.title.trim()) {
+                state.formError = 'Project title is required.';
+                renderAdminStudioModal();
+                return;
+              }
+              if (!f.tagline.trim()) {
+                state.formError = 'Short tagline is required.';
+                renderAdminStudioModal();
+                return;
+              }
+              if (f.tagline.trim().length > 80) {
+                state.formError = 'Short tagline must be 80 characters or fewer.';
+                renderAdminStudioModal();
+                return;
+              }
+              if (!f.description.trim()) {
+                state.formError = 'Project description is required.';
+                renderAdminStudioModal();
+                return;
+              }
+              if ((f.type === 'apk' || f.type === 'both') && !f.apkUrl.trim()) {
+                state.formError =
+                  'Please provide an APK file or direct download URL.';
+                renderAdminStudioModal();
+                return;
+              }
+              if ((f.type === 'web' || f.type === 'both') && !f.webUrl.trim()) {
+                state.formError =
+                  'Please provide a live website URL (https://...).';
+                renderAdminStudioModal();
+                return;
+              }
+
+              var verRaw = f.version.trim() || 'v1.0.0';
+              var normalizedVer =
+                verRaw.indexOf('v') === 0 ? verRaw : 'v' + verRaw;
+              var stackArr = state.techInput
+                .split(',')
+                .map(function (s) {
+                  return s.trim();
+                })
+                .filter(Boolean);
+              if (stackArr.length === 0) {
+                stackArr = f.type === 'apk' ? ['Kotlin', 'Android'] : ['HTML5', 'Web'];
+              }
+
+              if (f.isFeatured) {
+                state.projects = state.projects.map(function (p) {
+                  return Object.assign({}, p, { isFeatured: false });
+                });
+              }
+
+              var savedTitle = f.title.trim();
+              var wasEdit = Boolean(state.editingId);
+
+              if (state.editingId) {
+                state.projects = state.projects.map(function (item) {
+                  if (item.id !== state.editingId) return item;
+                  return Object.assign({}, item, {
+                    title: f.title.trim(),
+                    tagline: f.tagline.trim(),
+                    description: f.description.trim(),
+                    changelog: f.changelog.trim() || item.changelog,
+                    type: f.type,
+                    category: f.category,
+                    iconUrl: f.iconUrl.trim() || DEFAULT_ICONS.wallpaper3d,
+                    screenshots:
+                      f.screenshots.length > 0
+                        ? f.screenshots.slice()
+                        : [DEFAULT_SCREENSHOTS.wallpaperHero1],
+                    apkUrl: f.type === 'web' ? '' : f.apkUrl.trim(),
+                    webUrl: f.type === 'apk' ? '' : f.webUrl.trim(),
+                    version: normalizedVer,
+                    fileSize:
+                      f.type === 'web' ? 'Cloud' : f.fileSize.trim() || '14.5 MB',
+                    techStack: stackArr,
+                    isFeatured: Boolean(f.isFeatured),
+                  });
+                });
+              } else {
+                var newProj = {
+                  id: 'pb_' + Date.now(),
+                  title: f.title.trim(),
+                  tagline: f.tagline.trim(),
+                  description: f.description.trim(),
+                  changelog:
+                    f.changelog.trim() ||
+                    normalizedVer + ' — Initial official release on PocketBawal.',
+                  type: f.type,
+                  category: f.category,
+                  iconUrl: f.iconUrl.trim() || DEFAULT_ICONS.wallpaper3d,
+                  screenshots:
+                    f.screenshots.length > 0
+                      ? f.screenshots.slice()
+                      : [DEFAULT_SCREENSHOTS.wallpaperHero1],
+                  apkUrl: f.type === 'web' ? '' : f.apkUrl.trim(),
+                  webUrl: f.type === 'apk' ? '' : f.webUrl.trim(),
+                  version: normalizedVer,
+                  fileSize:
+                    f.type === 'web' ? 'Cloud' : f.fileSize.trim() || '14.5 MB',
+                  techStack: stackArr,
+                  downloads: 1,
+                  isFeatured: Boolean(f.isFeatured),
+                  createdAt: new Date().toISOString(),
+                };
+                state.projects = [newProj].concat(state.projects);
+              }
+
+              persistProjects();
+              state.editingId = null;
+              state.form = getEmptyForm();
+              state.techInput = 'Kotlin, Android';
+              state.screenshotUrlInput = '';
+              state.formError = '';
+              renderStorefront();
+              showStudioStatus(
+                (wasEdit ? 'Updated "' : 'Published "') +
+                  savedTitle +
+                  '" to PocketBawal!'
+              );
+            }
+          });
+
+          // Deep-link support (?app=pb_...)
+          try {
+            var params = new URLSearchParams(window.location.search);
+            var appParam = params.get('app');
+            if (
+              appParam &&
+              state.projects.some(function (p) {
+                return p.id === appParam;
+              })
+            ) {
+              state.selectedProjectId = appParam;
+              renderDetailSheet();
+            }
+          } catch (e) {}
+        }
+
+        // Boot Application
+        initStaticIconsAndEvents();
+        renderStorefront();
+      })();
+    </script>
   </body>
 </html>
-
